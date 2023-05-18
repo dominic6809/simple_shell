@@ -3,7 +3,7 @@
  * cd_dot - Change directory to current directory
  * @datash: Pointer to input parameters
  */
-void cd_dot(input_params *datash)
+void cd_dot(runtime_params *datash)
 {
 	char *current_dir = datash->args[1];
 
@@ -21,7 +21,7 @@ void cd_dot(input_params *datash)
  * cd_to - Change directory to the specified directory
  * @datash: Pointer to input parameters
  */
-void cd_to(input_params *datash)
+void cd_to(runtime_params *datash)
 {
 	char *target_dir = datash->args[1];
 
@@ -38,7 +38,7 @@ void cd_to(input_params *datash)
  * cd_previous - Change directory to the previous directory
  * @datash: Pointer to input parameters
  */
-void cd_previous(input_params *datash)
+void cd_previous(runtime_params *datash)
 {
 	if (chdir("..") != 0)
 		perror("cd");
@@ -48,7 +48,7 @@ void cd_previous(input_params *datash)
  * cd_to_home - Change directory to the home directory
  * @datash: Pointer to input parameters
  */
-void cd_to_home(input_params *datash)
+void cd_to_home(runtime_params *datash)
 {
 	char *home_dir = _getenv("HOME", datash->_environ);
 
