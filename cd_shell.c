@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-
+#include "shell.h"
 /**
  * cd_shell - Change directory
  * @datash: Pointer to input parameters
