@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
+#include "shell.h"
 /**
  * cd_dot - Change directory to current directory
  * @datash: Pointer to input parameters
