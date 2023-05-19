@@ -1,6 +1,11 @@
 #include "shell.h"
 #include <stdlib.h>
 
+int interactive(info_t *info);
+int is_delim(char c, char *delim);
+int _isalpha(int c);
+int _atoi(char *s);
+
 /**
  * interactive - returns true if shell is in interactive mode
  * @info: struct address
