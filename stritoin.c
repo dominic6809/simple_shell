@@ -1,32 +1,71 @@
 #include "shell.h"
+#include <stdlib.h>
+
+/**
+ * interactive - returns true if shell is in interactive mode
+ * @info: struct address
+ *
+ * Return: 1 if interactive mode, 0 otherwise
+ */
+int interactive(info_t *info)
+{
+	return (isatty(STDIN_FILENO) && info->readfd <= 2);
+}
+
+/**
+ * is_delim - checks if character is a delimiter
+ * @c: the char to check
+ * @delim: the delimiter string
+ *
+ * Return: 1 if true, 0 if false
+ */
+int is_delim(char c, char *delim)
+{
+	while (*delim)
+	{
+		if (*delim == c)
+			return (1);
+		delim++;
+	}
+	return (0);
+}
+
+/**
+ * _isalpha - checks for alphabetic character
+ * @c: The character to input
+ *
+ * Return: 1 if c is alphabetic, 0 otherwise
+ */
+int _isalpha(int c)
+{
+	return (isalpha(c));
+}
+
 /**
  * _atoi - converts a string to an integer
+ * @s: the string to be converted
  *
- *   @str: the string to convert
- *
- *   Return: the integer value of the string
+ * Return: 0 if no numbers in string, converted number otherwise
  */
-int _atoi(char *str)
+int _atoi(char *s)
 {
-	int sign = 1, num = 0;
+	int sign = 1;
+	int result = 0;
 
-	/* Handle negative numbers */
-	if (*str == '-')
+	while (isspace(*s))
+		s++;
+
+	if (*s == '-' || *s == '+')
 	{
-		sign = -1;
-		str++;
+		if (*s == '-')
+			sign = -1;
+		s++;
 	}
-	/* Convert string to integer */
-	while (*str != '\0')
+
+	while (isdigit(*s))
 	{
-		if (_isdigit(*str))
-		{
-			num = num * 10 + (*str - '0');
-		} else
-		{
-			break;
-		}
-		str++;
+		result = result * 10 + (*s - '0');
+		s++;
 	}
-	return (num * sign);
+	return (result * sign);
 }
