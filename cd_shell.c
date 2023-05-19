@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-
+#include "shell.h"
 /**
  * cd_shell - Change directory
  * @datash: Pointer to input parameters
  * Return: 0 on success, -1 on failure
  */
-int cd_shell(input_params *datash)
+int cd_shell(input_params *datash);
 {
 	char *dir = datash->args[1];
 	int result;

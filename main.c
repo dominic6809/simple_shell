@@ -1,73 +1,91 @@
 #include "shell.h"
 
 /**
- * free_parameters - frees parameters structure
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
  *
- * @datash: parameters structure
- * Return: no return
+ * Return: 0 on success, 1 on error
  */
-void free_parameters(input_params *datash)
+int main(int ac, char **av)
 {
-	unsigned int i;
+	info_t info[] = { INFO_INIT };
+	int fd = 2;
 
-	for (i = 0; datash->_environ[i]; i++)
+	asm ("mov %1, %0\n\t"
+			"add $3, %0"
+			: "=r" (fd)
+			: "r" (fd));
+
+	if (ac == 2)
 	{
-		free(datash->_environ[i]);
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
+		{
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
+			{
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
+		}
+		info->readfd = fd;
 	}
-
-	free(datash->_environ);
-	free(datash->pid);
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
+	return (EXIT_SUCCESS);
 }
+
+
+#include "shell.h"
 
 /**
- * set_parameters - Initialize parameters structure
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
  *
- * @datash: parameters structure
- * @argv: argument vector
- * Return: no return
+ * Return: 0 on success and 1 on error
  */
-void set_parameters(input_params *datash, char **argv)
+int main(int ac, char **av)
 {
-	unsigned int i;
+	info_t info[] = { INFO_INIT };
+	int fd = 2;
 
-	datash->argv = argv;
-	datash->input = NULL;
-	datash->args = NULL;
-	datash->status = 0;
-	datash->counter = 1;
+	asm ("mov %1, %0\n\t"
+			"add $3, %0"
+			: "=r" (fd)
+			: "r" (fd));
 
-	for (i = 0; environ[i]; i++)
-		;
-
-	datash->_environ = malloc(sizeof(char *) * (i + 1));
-
-	for (i = 0; environ[i]; i++)
+	if (ac == 2)
 	{
-		datash->_environ[i] = _strdup(environ[i]);
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
+		{
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
+			{
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
+		}
+		info->readfd = fd;
 	}
-
-	datash->_environ[i] = NULL;
-	datash->pid = aux_itoa(getpid());
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
+	return (EXIT_SUCCESS);
 }
 
-/**
- * main - Entry point
- *
- * @argc: argument count
- * @argv: argument vector
- *
- * Return: 0 on success.
- */
-int main(int argc, char **argv)
-{
-	input_params datash;
-	(void) argc;
-
-	signal(SIGINT, get_sigint);
-	set_parameters(&datash, argv);
-	shell_loop(&datash);
-	free_parameters(&datash);
-	if (datash.status < 0)
-		return (255);
-	return (datash.status);
-}
