@@ -1,5 +1,4 @@
 #include "shell.h"
-#include <stdlib.h>
 
 int interactive(info_t *info);
 int is_delim(char c, char *delim);
@@ -43,7 +42,7 @@ int is_delim(char c, char *delim)
  */
 int _isalpha(int c)
 {
-	return (isalpha(c));
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
 
 /**
@@ -57,7 +56,7 @@ int _atoi(char *s)
 	int sign = 1;
 	int result = 0;
 
-	while (isspace(*s))
+	while (*s == ' ' || *s == '\t' || *s == '\n')
 		s++;
 
 	if (*s == '-' || *s == '+')
@@ -67,7 +66,7 @@ int _atoi(char *s)
 		s++;
 	}
 
-	while (isdigit(*s))
+	while (*s >= '0' && *s <= '9')
 	{
 		result = result * 10 + (*s - '0');
 		s++;
