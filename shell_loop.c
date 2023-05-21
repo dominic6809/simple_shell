@@ -1,74 +1,131 @@
 #include "shell.h"
 
 /**
- * without_comment - Removes comments from a given string
- * @in: Input string
+ * hsh - main shell function
+ * @info: shell info struct
+ * @args: command line args
  *
- * Return: String without comments
+ * Return: 0 on success, 1 on failure
  */
-char *without_comment(char *in)
+int hsh(info_t *info, char **av)
 {
-    char *result;
-    int i, j;
-
-    if (in == NULL)
-        return NULL;
-
-    result = malloc(strlen(in) + 1);
-    if (result == NULL)
-    {
-        perror("Error: Memory allocation failed");
-        return NULL;
-    }
-
-    for (i = 0, j = 0; in[i] != '\0'; i++)
-    {
-        if (in[i] == '#')
-            break;
-        result[j++] = in[i];
-    }
-
-    result[j] = '\0';
-    return result;
-}
-
-/**
- * shell_loop - Main shell loop for reading and executing commands
- * @datash: Input parameters
- */
-void shell_loop(input_params *datash)
-{
-    char *line;
-    char *clean_line;
-    ssize_t read;
-    size_t len = 0;
-    int status;
+    int builtin_ret = 0;
 
     while (1)
     {
-        printf("$ ");
-        read = getline(&line, &len, stdin);
+        clear_info(info);
+        if (interactive(info))
+            _puts("$ ");
 
-        if (read == -1)
+        if (get_input(info) == -1)
         {
-            if (feof(stdin))
-                printf("\n");
+            if (interactive(info))
+                _putchar('\n');
             break;
         }
 
-        clean_line = without_comment(line);
-        if (clean_line == NULL)
-            continue;
+        set_info(info, av);
+        builtin_ret = find_builtin(info);
+        if (builtin_ret == -1)
+            find_cmd(info);
 
-        status = check_syntax_error(datash, clean_line);
-        if (status == 0)
-        {
-            // Execute the command
-            // ...
-        }
-
-        free(clean_line);
+        free_info(info, 0);
     }
 
-    free(line);
+    write_history(info);
+    free_info(info, 1);
+
+    if (!interactive(info) && info->status)
+        exit(info->status);
+
+    if (builtin_ret == -2)
+        exit(info->err_num);
+
+    return (builtin_ret);
 }
+/**
+ * find_builtin - finds if command is a builtin
+ * @info: shell info struct
+ *
+ * Return: 0 if a builtin, -1 if not
+ */
+int find_builtin(info_t *info)
+{
+    builtin_table builtintbl[] = {
+        {"exit", _myexit},
+        {"env", _myenv},
+        {"help", _myhelp},
+        {"history", _myhistory},
+        {"setenv", _mysetenv},
+        {"unsetenv", _myunsetenv},
+        {"cd", _mycd},
+        {"alias", _myalias},
+        {NULL, NULL}
+    };
+
+    for (int i = 0; builtintbl[i].type != NULL; i++)
+    {
+        if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
+        {
+            info->line_count++;
+            return builtintbl[i].func(info);
+        }
+    }
+
+    return -1;
+}
+
+
+/**
+ * find_cmd - finds the command path
+ * @info: shell info struct
+ */
+void find_cmd(info_t *info)
+{
+	char *path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	if (path)
+	{
+		info->path = path;
+		fork_cmd(info);
+	}
+	else if ((interactive(info) || _getenv(info, "PATH=") || info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
+	{
+		fork_cmd(info);
+	}
+	else if (*(info->arg) != '\n')
+	{
+		info->status = 127;
+		print_error(info, "not found\n");
+	}
+}
+
+
+/**
+ * fork_cmd - forks and executes a command
+ * @info: shell info struct
+ */
+void fork_cmd(info_t *info)
+{
+    pid_t pid;
+    int status;
+
+    pid = fork();
+    if (pid == 0)
+    {
+        execve(info->path, info->argv, get_environ(info));
+        perror("execve");
+        exit(127);
+    }
+    else if (pid < 0)
+    {
+        perror("fork error");
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        do {
+            waitpid(pid, &status, 0);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
+}
+
