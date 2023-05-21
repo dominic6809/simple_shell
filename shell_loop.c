@@ -3,45 +3,46 @@
 /**
  * hsh - main shell function
  * @info: shell info struct
- * @args: command line args
+ * @av: argument vector
  *
  * Return: 0 on success, 1 on failure
  */
 int hsh(info_t *info, char **av)
 {
-    int builtin_ret = 0;
+	int builtin_ret = 0;
 
-    while (1)
-    {
-        clear_info(info);
-        if (interactive(info))
-            _puts("$ ");
+	while (1)
+	{
+		clear_info(info);
 
-        if (get_input(info) == -1)
-        {
-            if (interactive(info))
-                _putchar('\n');
-            break;
-        }
+		if (interactive(info))
+			_puts("$ ");
 
-        set_info(info, av);
-        builtin_ret = find_builtin(info);
-        if (builtin_ret == -1)
-            find_cmd(info);
+		if (get_input(info) == -1)
+		{
+			if (interactive(info))
+				_putchar('\n');
+			break;
+		}
 
-        free_info(info, 0);
-    }
+		set_info(info, av);
+		builtin_ret = find_builtin(info);
 
-    write_history(info);
-    free_info(info, 1);
+		if (builtin_ret == -1)
+			find_cmd(info);
 
-    if (!interactive(info) && info->status)
-        exit(info->status);
+		free_info(info, 0);
+	}
 
-    if (builtin_ret == -2)
-        exit(info->err_num);
+	write_history(info);
+	free_info(info, 1);
 
-    return (builtin_ret);
+	if (!interactive(info) && info->status)
+		exit(info->status);
+	if (builtin_ret == -2)
+		exit(info->err_num);
+
+	return (builtin_ret);
 }
 /**
  * find_builtin - finds if command is a builtin
@@ -51,31 +52,29 @@ int hsh(info_t *info, char **av)
  */
 int find_builtin(info_t *info)
 {
-    builtin_table builtintbl[] = {
-        {"exit", _myexit},
-        {"env", _myenv},
-        {"help", _myhelp},
-        {"history", _myhistory},
-        {"setenv", _mysetenv},
-        {"unsetenv", _myunsetenv},
-        {"cd", _mycd},
-        {"alias", _myalias},
-        {NULL, NULL}
-    };
+	builtin_table builtintbl[] = {
+		{"exit", _myexit},
+		{"env", _myenv},
+		{"help", _myhelp},
+		{"history", _myhistory},
+		{"setenv", _mysetenv},
+		{"unsetenv", _myunsetenv},
+		{"cd", _mycd},
+		{"alias", _myalias},
+		{NULL, NULL}
+	};
 
-    for (int i = 0; builtintbl[i].type != NULL; i++)
-    {
-        if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
-        {
-            info->line_count++;
-            return builtintbl[i].func(info);
-        }
-    }
+	for (int i = 0; builtintbl[i].type != NULL; i++)
+	{
+		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
+		{
+			info->line_count++;
 
-    return -1;
+			return (builtintbl[i].func(info));
+		}
+	}
+	return (-1);
 }
-
-
 /**
  * find_cmd - finds the command path
  * @info: shell info struct
@@ -83,12 +82,14 @@ int find_builtin(info_t *info)
 void find_cmd(info_t *info)
 {
 	char *path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+
 	if (path)
 	{
 		info->path = path;
 		fork_cmd(info);
 	}
-	else if ((interactive(info) || _getenv(info, "PATH=") || info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
+	else if ((interactive(info) || _getenv(info, "PATH=")
+				|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
 	{
 		fork_cmd(info);
 	}
@@ -98,34 +99,32 @@ void find_cmd(info_t *info)
 		print_error(info, "not found\n");
 	}
 }
-
-
 /**
  * fork_cmd - forks and executes a command
  * @info: shell info struct
  */
 void fork_cmd(info_t *info)
 {
-    pid_t pid;
-    int status;
+	pid_t pid;
+	int status;
 
-    pid = fork();
-    if (pid == 0)
-    {
-        execve(info->path, info->argv, get_environ(info));
-        perror("execve");
-        exit(127);
-    }
-    else if (pid < 0)
-    {
-        perror("fork error");
-        exit(EXIT_FAILURE);
-    }
-    else
-    {
-        do {
-            waitpid(pid, &status, 0);
-        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-    }
+	pid = fork();
+
+	if (pid == 0)
+	{
+		execve(info->path, info->argv, get_environ(info));
+		perror("execve");
+		exit(127);
+	}
+	else if (pid < 0)
+	{
+		perror("fork error");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		do {
+			waitpid(pid, &status, 0);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
 }
-
