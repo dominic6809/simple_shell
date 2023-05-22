@@ -13,7 +13,7 @@ int _myexit(info_t *info)
 	if (info->arg[1])
 	{
 		/* converts args to an integer */
-		exit_status = _atoi(info->arg[1]);
+		exit_status = _atoi(&info->arg[1]);
 	}
 	/* free mem */
 	free_info(info, 1);
@@ -38,13 +38,13 @@ int _mycd(info_t *info)
 		/* if HOME var is not set, output error */
 		if (!dir)
 		{
-			_puts("cd: HOME not set \n");
+			printf("cd: HOME not set \n");
 			return (1);
 		}
 	}
 	else
 	{
-		dir = info->arg[1];
+		dir = &info->arg[1];
 	}
 	/* change directory */
 	if (chdir(dir) == -1)
@@ -60,9 +60,8 @@ int _mycd(info_t *info)
  * @info: pointer to info struct.
  * Return: 0 when successful
  */
-int _myhelp(info_t *info)
+int _myhelp()
 {
-	int i;
 	char *commands[] = {
 		"cd", "exit", "help", NULL
 	};
