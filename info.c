@@ -8,8 +8,8 @@
 void clear_info(info_t *info)
 {
 	ffree(info->av);
-	ffree(info->path);
-	ffree(info->env);
+	ffree(char *);
+	ffree(list_t *);
 }
 
 /**
