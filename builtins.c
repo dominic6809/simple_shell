@@ -60,14 +60,16 @@ int _mycd(info_t *info)
  * @info: pointer to info struct.
  * Return: 0 when successful
  */
-int _myhelp()
+int _myhelp(info_t *info)
 {
+	int i;
 	char *commands[] = {
 		"cd", "exit", "help", NULL
 	};
-	char *descriptions[] = {
+	char *descriptions[] = 
+	{
 		"change directory",
-		"exit the shell";
+		"exit the shell",
 		"display help infomation for built-in commands"
 	};
 

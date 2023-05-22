@@ -1,4 +1,4 @@
-#include "header_file.h"
+#include "shell.h"
 
 /* file name: error_utils.c */
 
@@ -33,7 +33,7 @@ int _erratoi(char *str)
  */
 void print_error(info_t *info, char *msg)
 {
-	_putsfd(info->name, 2);
+	_putsfd(info->fname, 2);
 	_putsfd(":", 2);
 	_putsfd(msg, 2);
 }
@@ -99,7 +99,7 @@ void remove_comments(char *str)
 			if (str[i] == '\n')
 				in_comment = 0;
 			else
-				str[i] = '';
+				str[i] = '\n';
 		}
 		else
 		{
