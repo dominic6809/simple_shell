@@ -151,7 +151,7 @@ int write_history(info_t *info)
         return 0;
     }
 
-    for (i = 0; i < info->history_len; i++) {
+    for (i = 0; i < info->history; i++) {
         if (write(fd, info->history[i], strlen(info->history[i])) == -1 ||
             write(fd, "\n", 1) == -1) {
             close(fd);
@@ -206,4 +206,3 @@ int read_history(info_t *info)
     free(history_file);
     return 1;
 }
-

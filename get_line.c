@@ -68,10 +68,11 @@ int _getline(info_t *info, char **buffer, size_t *buf_size)
  */
 void sigintHandler(int sig_num)
 {
+	char PROMPT;
 	if (sig_num == SIGINT)
 	{
 		_puts("\n");
-		_puts(PROMPT);
+		_puts(char);
 		fflush(stdout);
 	}
 }
