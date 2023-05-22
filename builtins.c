@@ -75,7 +75,7 @@ int _myhelp(info_t *info)
 	/* prints help information for each command */
 	for (i = 0; commands[i]; i++)
 	{
-		dprintf("%s - %s\n", commands[i], descriptions[i]);
+		printf("%s - %s\n", commands[i], descriptions[i]);
 	}
 	return (0);
 }
