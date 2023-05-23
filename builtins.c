@@ -58,7 +58,8 @@ int _mycd(info_t *info)
 /**
  * _myhelp - display help information for built-in commands.
  * @info: pointer to info struct.
- * Return: 0 when successful
+ *
+ * Return: (0) when successful always.
  */
 int _myhelp(info_t *info)
 {
