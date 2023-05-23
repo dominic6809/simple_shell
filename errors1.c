@@ -57,11 +57,12 @@ int print_d(int n, int num_digits)
 }
 /**
  * convert_number - changes a number to a string with a given base
- * @num: the number to convert.
+ * @num: number to convert.
  * @base: base to convert to.
  * @uppercase: whether to use uppercase or lowercase letters.
  * Return: pointer to the string representation of the number.
  */
+
 char *convert_number(long int num, int base, int uppercase)
 {
 	static char buffer[50];
@@ -81,10 +82,12 @@ char *convert_number(long int num, int base, int uppercase)
 	} while (num != 0);
 	return (ptr);
 }
+
 /**
  * remove_comments - ommits comments from a string.
  * @str: the string to remove comments from.
  */
+
 void remove_comments(char *str)
 {
 	int i, in_comment, len;
