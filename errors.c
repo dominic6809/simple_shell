@@ -34,13 +34,14 @@ int _eputchar(char c)
 		buf[i++] = c;
 	return (1);
 }
+
 /**
  * _putfd - writes a char to the specified file descriptor.
  * @c: char to be written.
  * @fd: file descriptor where it writes.
- *
  * Return: the number of chars written.
  */
+
 int _putfd(char c, int fd)
 {
 	static int i;
@@ -62,6 +63,7 @@ int _putfd(char c, int fd)
  * @fd: file descriptor where it writes.
  * Return: number of chars written.
  */
+
 int _putsfd(char *str, int fd)
 {
 	int i = 0;
