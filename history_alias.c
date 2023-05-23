@@ -5,6 +5,7 @@
  * @info: a pointer to the info_t struct.
  * Return: 1 success, to continue executing
  */
+
 int _myhistory(info_t *info)
 {
 	int i, hist_count;
@@ -19,10 +20,11 @@ int _myhistory(info_t *info)
 	}
 	return (1);
 }
+
 /**
  * _myalias - creates or outputs alias for a command.
  * @info: pointer to the info_t struct.
- * Return: 1 always upon success, to continue executing.
+ * Return: (1) always upon success, to continue executing.
  */
 int _myalias(info_t *info)
 {
