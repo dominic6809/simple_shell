@@ -3,8 +3,8 @@
 /**
  * clear_info - frees all memory used by an info_t struct.
  * @info: pointer to info_t struct to clear.
- *
  */
+
 void clear_info(info_t *info)
 {
 	ffree(info->av);
