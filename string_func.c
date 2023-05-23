@@ -3,11 +3,12 @@
 /**
  * strtow - splits a string into an arr of words.
  * @str: string to split
- * @delim: delimiter char
+ * @delim: the delimiter char
  *
  * Return: a pointer to an arr of strings, or NULL
  * if an error occurs
  */
+
 char **strtow(char *str, char *delim)
 {
 	char **words, *word;
