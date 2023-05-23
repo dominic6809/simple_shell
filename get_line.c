@@ -28,7 +28,7 @@ ssize_t get_input(info_t *info)
  * @buffer: pointer to buffer to store line
  * @buf_size: pointer to size of buffer.
  *
- * Return: number of characters read or -1 incase error
+ * Return: the number of characters read or -1 incase error
  */
 int _getline(info_t *info, char **buffer, size_t *buf_size)
 {
@@ -64,8 +64,9 @@ int _getline(info_t *info, char **buffer, size_t *buf_size)
 }
 /**
  * sigintHandler - handles SIGINT signal.
- * @sig_num: signal number
+ * @sig_num: the signal number.
  */
+
 void sigintHandler(int sig_num)
 {
 	char PROMPT;
