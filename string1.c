@@ -39,7 +39,7 @@ int _strcmp(char *s1, char *s2)
  * @prefix: pointer to the prefix.
  *
  * Return: pointer to the rest of the string after the prefix, NULL
- * if the string does not start with the prefix.
+ * incase the string does not start with the prefix.
  */
 char *starts_with(const char *str, const char *prefix)
 {
@@ -60,7 +60,6 @@ char *starts_with(const char *str, const char *prefix)
  *
  * Return: pointer to the destination string.
  */
-
 char *_strcat(char *dest, char *src)
 {
 	int dest_len = _strlen(dest);
