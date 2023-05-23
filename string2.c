@@ -22,9 +22,11 @@ char *_strcpy(char *dest, char *src)
  * _strdup - duplicates the string pointed to by src,
  * allocating mem for the new string using malloc.
  * @src: pointer to the source string.
+ *
  * Returns: a pointer to the duplicated string, or (NULL)
- * if the allocation fails.
+ * incase the allocation fails.
  */
+
 char *_strdup(const char *src)
 {
 	size_t len = _strlen(src);
