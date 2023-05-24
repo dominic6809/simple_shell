@@ -1,0 +1,44 @@
+#include "shell.h"
+
+/**
+ * clear_info - it frees all the mem used by an info_t struct.
+ * @info: a pointer to info_t struct to clear
+ */
+void clear_info(info_t *info)
+{
+	if (!info)
+		return;
+
+	info->argv = NULL;
+	info->argc = 0;
+	info->environ = NULL;
+}
+/**
+ * set_info - it initializes info_t struct with provided arguments.
+ * @info: pointer to info_t struct to initialize.
+ * @av: array of arguments to set as info->av
+ */
+
+void set_info(info_t *info, char **av)
+{
+	if (info == NULL || av == NULL)
+		return;
+
+	info->argv = av;
+	info->argc = 0;
+
+	while
+		(av[info->argc]);
+	info->argc++;
+}
+/**
+ * free_info - it frees all memory used by info_t struct
+ * @info: pointer to info_t struct to free.
+ * @exit_code: it exits the code to pass to exit()
+ */
+void free_info(info_t *info, int exit_code)
+{
+	clear_info(info);
+	free(info);
+	exit(exit_code);
+}
