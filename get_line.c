@@ -9,16 +9,13 @@
 ssize_t get_input(info_t *info)
 {
 	ssize_t chars_read;
-	size_t input_size = 0;
-	char *input_buffer = Null;
+
+	if (info == NULL)
+		return (-1);
 
 	/* read input from STDIN using getline */
-	chars_read = _getline(info, &input_buffer, &input_size);
 	if (chars_read == -1)
-		return (-1);
-	/* store input in info_t struct */
-	info->input = input_buffer;
-	info->input_len = (size_t)chars_read;
+		perror("_getline");
 
 	return (chars_read);
 }
@@ -69,11 +66,10 @@ int _getline(info_t *info, char **buffer, size_t *buf_size)
 
 void sigintHandler(int sig_num)
 {
-	char PROMPT;
 	if (sig_num == SIGINT)
 	{
 		_puts("\n");
-		_puts(char);
+		_puts("$");
 		fflush(stdout);
 	}
 }
