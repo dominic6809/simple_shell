@@ -1,184 +1,78 @@
 #include "shell.h"
-<<<<<<< HEAD
-=======
-
-/* file name: error_utils.c */
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 
 /**
- * _erratoi - changes a string to an integer.
- * @str: string to be changed.
- *
- * Return: integer value of the string.
+ * _eputs - prints a string to the standard error stream.
+ * @str: string to be printed
  */
-int _erratoi(char *str)
+void _eputs(char *str)
 {
-	int i, result;
+	int i = 0;
 
-	result = 0;
-	for (i = 0; str[i] != '\0'; i++)
+	while (str[i])
 	{
-		if (str[i] >= '0' && str[i] <= '9')
-			result = result * 10 + (str[i] - '0');
-		else
-		{
-			_puts("error: invalid argument\n");
-			return (-1);
-		}
+		_eputchar(str[i]);
+		i++;
 	}
-	return (result);
 }
 /**
- * print_error - outputs an error.
- * @info: a pointer to the info_t struct.
- * @msg: error message to print.
+ * _eputchar - writes a char to the standard error stream
+ * @c: char to be written.
+ * Return: number of chars written.
  */
-void print_error(info_t *info, char *msg)
+
+int _eputchar(char c)
 {
-<<<<<<< HEAD
-	_putsfd(info->fname, 2);
-	_putsfd(":", 2);
-	_putsfd(msg, 2);
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(2, buf, i);
+		i = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
 }
+
 /**
-=======
-        _putsfd(info->fname, 2);
-        _putsfd(":", 2);
-        _putsfd(msg, 2);
-}/**
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
- * print_d - prints an integer to file descriptor
- * @input: The integer to print.
- * @fd: file descriptor to write to
- *
- * Return: number of characters written, -1 on error.
+ * _putfd - writes a char to the specified file descriptor.
+ * @c: char to be written.
+ * @fd: file descriptor where it writes.
+ * Return: the number of chars written.
  */
-int print_d(int input, int fd)
+
+int _putfd(char c, int fd)
 {
-<<<<<<< HEAD
-	int i;
-	int len = 0;
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(fd, buf, i);
+		i = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
+}
+
+/**
+ * _putsfd - writes a string to the specified file descriptor.
+ * @str: string to be written.
+ * @fd: file descriptor where it writes.
+ * Return: number of chars written.
+ */
+
+int _putsfd(char *str, int fd)
+{
+	int i = 0;
 	int count = 0;
-	char buff[20];
 
-	if (input < 0)
+	while (str[i])
 	{
-		input = -input;
-		count += write(fd, "0", 1);
-	}
-	if (input == 0)
-	{
-		count += write(fd, "0", 1);
-		return (count);
-	}
-	while
-		(input > 0)
-		{
-			buff[len++] = '0' + (input % 10);
-			input /= 10;
-		}
-	for (i = len - 1; i >= 0; i--)
-	{
-		count += write(fd, &buff[i], 1);
+		count += _putfd(str[i], fd);
+		i++;
 	}
 	return (count);
-=======
-        int i;
-        int len = 0;
-        int count = 0;
-        char buff[20];
-
-        if (input < 0)
-        {
-                input = -input;
-                count += write(fd, "0", 1);
-        }
-        if (input == 0)
-        {
-                count += write(fd, "0", 1);
-                return (count);
-        }
-        while
-                (input > 0)
-                {
-                        buff[len++] = '0' + (input % 10);
-                        input /= 10;
-                }
-        for (i = len - 1; i >= 0; i--)
-        {
-                count += write(fd, &buff[i], 1);
-        }
-        return (count);
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
-}
-/**
- * convert_number - changes a number to a string with a given base
- * @num: the number to convert.
- * @base: base to convert to.
- * @uppercase: whether to use uppercase or lowercase letters.
- * Return: pointer to the string representation of the number.
- */
-char *convert_number(long int num, int base, int uppercase)
-{
-        static char buffer[50];
-        char *ptr;
-        char hex_digits[] = "0123456789abcdef";
-        char HEX_DIGITS[] = "0123456789ABCDEF";
-
-        ptr = &buffer[49];
-        *ptr = '\0';
-
-        do {
-                if (uppercase)
-                        *--ptr = HEX_DIGITS[num % base];
-                else
-                        *--ptr = hex_digits[num % base];
-                num /= base;
-        } while (num != 0);
-        return (ptr);
-}
-/**
- * remove_comments - ommits comments from a string.
- * @str: the string to remove comments from.
- */
-void remove_comments(char *str)
-{
-        int i, in_comment, len;
-
-        len = _strlen(str);
-        in_comment = 0;
-
-<<<<<<< HEAD
-	for (i = 0; i < len; i++)
-	{
-		if (in_comment)
-		{
-			if (str[i] == '\n')
-				in_comment = 0;
-			else
-				str[i] = '#';
-		}
-		else
-		{
-			if (str[i] == '#')
-				in_comment = 1;
-		}
-	}
-=======
-        for (i = 0; i < len; i++)
-        {
-                if (in_comment)
-                {
-                        if (str[i] == '\n')
-                                in_comment = 0;
-                        else
-                                str[i] = '#';
-                }
-                else
-                {
-                        if (str[i] == '#')
-                                in_comment = 1;
-                }
-        }
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 }
