@@ -108,25 +108,8 @@ typedef struct passinfo
 } info_t;
 /* Initialize a default INFO data structure */
 #define  INFO_INIT \
-        .name = NULL, \
-        .description = NULL, \
-        .author = NULL, \
-        .version_major = 0, \
-        .version_minor = 0, \
-        .version_patch = 0, \
-        .is_beta = 0, \
-        .url = NULL, \
-        .email = NULL, \
-        .license_name = NULL, \
-        .license_url = NULL, \
-        .keywords = NULL, \
-        .num_args = 0, \
-        .args = NULL, \
-        .example = NULL, \
-        .supports_stdin = 0, \
-        .supports_stdout = 0, \
-        .supports_stderr = 0 \
-}     
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, \
+	NULL, NULL, 0, NULL, NULL, 0, 0, 0 }
 /**
  * struct builtin - contains a builtin string and related function
  * @type: the builtin command flag

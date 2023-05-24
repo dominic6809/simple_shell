@@ -58,24 +58,15 @@ list_t *add_node_end(list_t **head, const char *str, int num)
 	strncpy(new_node->str, str, num);
 	new_node->str[num] = '\0';
 	new_node->num = num;
-	new_node->next = NULL;
+	new_node->next = *head;
 
 	if (*head == NULL)
 	{
 		*head = new_node;
 		return (*head);
 	}
-
-	list_t *temp = *head;
-
-	while (temp->next != NULL)
-		temp = temp->next;
-
-	temp->next = new_node;
-
-	return (*head);
 }
-/**
+/*
  * free_list - frees all nodes of a list
  * @head_ptr: address of pointer to head node
  *

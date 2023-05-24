@@ -9,15 +9,11 @@
 char *get_history_file(info_t *info)
 {
 	char *dir;
-	char *simple_shell_history = NULL;
 	char *file_path = NULL;
 
+	dir = _getenv(info, "HOME=");
+
 	if (dir == NULL)
-		return (NULL);
-
-	HIST_FILE   ".simple_shell_history";
-
-	if (HIST_FILE == NULL)
 		return (NULL);
 
 	file_path = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
@@ -142,12 +138,10 @@ int read_history(info_t *info)
  */
 int write_history(info_t *info)
 {
-<<<<<<< HEAD
 	char *history_file  = get_history_file(info);
-	int fd, i;
+	int fd;
 	list_t *node = NULL;
 
-	history_file = get_history_file(info);
 
 	if (!history_file)
 		return (-1);
@@ -174,72 +168,4 @@ int write_history(info_t *info)
 	free(history_file);
 
 	return (1);
-=======
-    char *history_file;
-    int fd, i;
-
-    history_file = get_history_file(info);
-    if (!history_file)
-        return 0;
-
-    fd = open(history_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-    if (fd == -1) {
-        free(history_file);
-        return 0;
-    }
-
-    for (i = 0; i < info->history; i++) {
-        if (write(fd, info->history[i], strlen(info->history[i])) == -1 ||
-            write(fd, "\n", 1) == -1) {
-            close(fd);
-            free(history_file);
-            return 0;
-        }
-    }
-
-    close(fd);
-    free(history_file);
-
-    return 1;
-}
-
-/**
- * read_history - Reads the history file and stores its contents in the info struct
- * @info: Pointer to the info_t struct
- *
- * Return: 1 on success, 0 on failure
- */
-int read_history(info_t *info)
-{
-    char *history_file = get_history_file(info);
-    FILE *fp;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    int linecount = 0;
-
-    if (!history_file)
-        return 0;
-
-    fp = fopen(history_file, "r");
-    if (!fp) {
-        free(history_file);
-        return 0;
-    }
-
-    while ((read = getline(&line, &len, fp)) != -1) {
-        if (read > 0 && line[read - 1] == '\n')
-            line[read - 1] = '\0';
-        if (!add_node_end(&(info->history), line, linecount)) {
-            free(history_file);
-            fclose(fp);
-            return 0;
-        }
-        linecount++;
-    }
-
-    free(line);
-    fclose(fp);
-    free(history_file);
-    return 1;
 }
