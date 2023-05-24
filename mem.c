@@ -3,7 +3,6 @@
 /**
  * _memset - fills the first n bytes of the memory area pointed to by s with
  * the constant byte b.
- *
  * @s: pointer to the memory area to be filled.
  * @b: the constant byte to fill the memory with.
  * @n: number of bytes to be filled.
@@ -45,6 +44,7 @@ void ffree(char **arr)
  * if new_size is 0 and ptr i otherwise NULL if the function
  * fails to allocate the requested memory.
  */
+
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	char *new_ptr;

@@ -23,8 +23,9 @@ char *_strncpy(char *dest, char *src, int n)
  * a source string to a destination string.
  * @dest: destination string.
  * @src: the source string.
- * @n: maximum number of chars to concatenate.
- * Return: ptr to destination string.
+ * @n: the maximum number of chars to concatenate.
+ *
+ * Return: pointer to destination string.
  */
 char *_strncat(char *dest, char *src, int n)
 {

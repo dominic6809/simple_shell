@@ -13,7 +13,11 @@ int _myexit(info_t *info)
 	if (info->argv[1])
 	{
 		/* converts args to an integer */
+<<<<<<< HEAD
 		exit_status = _erratoi(info->argv[1]);
+=======
+		exit_status = _atoi(&info->arg[1]);
+>>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 	}
 	/* free mem */
 	free_info(info, 1);
@@ -38,13 +42,17 @@ int _mycd(info_t *info)
 		/* if HOME var is not set, output error */
 		if (!dir)
 		{
-			_puts("cd: HOME not set \n");
+			printf("cd: HOME not set \n");
 			return (1);
 		}
 	}
 	else
 	{
+<<<<<<< HEAD
 		dir = info->argv[1];
+=======
+		dir = &info->arg[1];
+>>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 	}
 	/* change directory */
 	if (chdir(dir) == -1)
@@ -58,10 +66,12 @@ int _mycd(info_t *info)
 /**
  * _myhelp - display help information for built-in commands.
  * @info: pointer to info struct.
- * Return: 0 when successful
+ *
+ * Return: (0) when successful always.
  */
 int _myhelp(info_t *info)
 {
+<<<<<<< HEAD
 	(void)info;
 	char **arg_array = info->argv;
 
@@ -69,5 +79,23 @@ int _myhelp(info_t *info)
 	if (arg_array)
 		-puts(*arg_array);
 
+=======
+	int i;
+	char *commands[] = {
+		"cd", "exit", "help", NULL
+	};
+	char *descriptions[] = 
+	{
+		"change directory",
+		"exit the shell",
+		"display help infomation for built-in commands"
+	};
+
+	/* prints help information for each command */
+	for (i = 0; commands[i]; i++)
+	{
+		printf("%s - %s\n", commands[i], descriptions[i]);
+	}
+>>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 	return (0);
 }

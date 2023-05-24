@@ -280,4 +280,3 @@ int renumber_history(info_t *info);
 
 
 #endif
-

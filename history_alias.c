@@ -3,13 +3,18 @@
 /**
  * _myhistory - prints the history of commands entered
  * @info: a pointer to the info_t struct.
- * Return: 1 success, to continue executing.
+ * Return: 1 success, to continue executing
  */
+
 int _myhistory(info_t *info)
 {
 	int count = 1;
 	list_t *node = info->history;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 	while
 		(node)
 		{
@@ -20,11 +25,18 @@ int _myhistory(info_t *info)
 	return (0);
 }
 /**
+<<<<<<< HEAD
  * set_alias - sets alias to string
  * @info: parameter struct
  * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
+=======
+ * set_alias - it sets alias to string.
+ * @info: parameter struct.
+ * @str: the string alias.
+ * Return: 0 always upon success, otherwise 1 on error
+>>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
  */
 int set_alias(info_t *info, char *str)
 {
@@ -46,9 +58,15 @@ int set_alias(info_t *info, char *str)
 	return (0);
 }
 /**
+<<<<<<< HEAD
  * _myalias - create or print an alias for a command
  * @info: a pointer to the info_t struct.
  * Return: 0 always
+=======
+ * _myalias - creates or outputs an alias for a command.
+ * @info: a pointer to the info_t struct.
+ * Return: always 0 on success
+>>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
  */
 int _myalias(info_t *info)
 {
@@ -70,10 +88,16 @@ int _myalias(info_t *info)
 	return (0);
 }
 /**
+<<<<<<< HEAD
  * print_alias - prints an alias string
  * @node: the alias node
  *
  * Return: Always 0 on success, 1 on error
+=======
+ * print_alias - it prints an alias string.
+ * @node: the alias node.
+ * Return: 0 always on success, 1 on error.
+>>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
  */
 int print_alias(list_t *node)
 {
@@ -85,10 +109,16 @@ int print_alias(list_t *node)
 
 		for (t = node->str; t <= m; t++)
 			_putchar(*t);
+<<<<<<< HEAD
 		_putchar('\'');
 		_puts(m + 1);
 		_puts("'\n");
 
+=======
+		_putchar('\n');
+		_puts(m + 1);
+		_puts("\n");
+>>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 		return (0);
 	}
 	return (1);
