@@ -1,105 +1,85 @@
 #include "shell.h"
 
 /**
-<<<<<<< HEAD
- * _strcpy - Copies the string to the buffer pointed to by dest.
- * @src: The source string.
- * @dest: The destination string.
- * Return: A pointer to the org destination string.
-=======
- * _strcpy - copies the string to the buffer pointed to by dest.
- * @src: pointer to the source string.
- * @dest: pointer to the destination string.
- * Returns: pointer to the destination string.
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
+ * _strdup - duplicates a string
+ * @str: the string to duplicate
+ *
+ * Return: pointer to the duplicated string
+ */
+char *_strdup(const char *str)
+{
+	int length = 0;
+	char *ret;
+
+	if (str == NULL)
+		return (NULL);
+	while (*str++)
+		length++;
+	ret = malloc(sizeof(char) * (length + 1));
+	if (!ret)
+		return (NULL);
+	for (length++; length--;)
+		ret[length] = *--str;
+	return (ret);
+}
+/**
+ * _strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
+ *
+ * Return: pointer to destination
  */
 char *_strcpy(char *dest, char *src)
 {
 	int i = 0;
-	char *orig_dest = dest;
 
-	while (*src)
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[i])
 	{
-		*dest++ = *src++;
+		dest[i] = src[i];
+		i++;
 	}
-	*dest = '\0';
-	return (orig_dest);
+	dest[i] = 0;
+	return (dest);
 }
 /**
-<<<<<<< HEAD
- * _strdup - Duplicates a string.
- * @str: string to duplicate
+ * _puts - prints an input string
+ * @str: the string to be printed
  *
-=======
- * _strdup - it duplicates a string.
- * str: the sztring to duplicate.
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
- * Return: a pointer to the duplicate string.
- */
-char *_strdup(const char *str)
-{
-	char *duplicate;
-	int length, i;
-
-	if (str == NULL)
-		return (NULL);
-
-	length = 0;
-	while (str[length] != '\0')
-		length++;
-<<<<<<< HEAD
-
-	duplicate = malloc(sizeof(char) * (length + 1));
-	if (duplicate == NULL)
-		return (NULL);
-
-	for (i = 0; i <= length; i++)
-		duplicate[i] = str[i];
-
-=======
-
-	duplicate = malloc(sizeof(char) * (length + 1));
-	if (duplicate == NULL)
-		return (NULL);
-
-	for (i = 0; i <= length; i++)
-		duplicate[i] = str[i];
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
-	return (duplicate);
-}
-
-/**
-<<<<<<< HEAD
- * _puts - outputs the null-terminated string pointed to by str to stdout.
- * @str: string to be printed
- *
-=======
- * _puts - prints the null-terminated string pointed to by str to stdout.
- * str: string to be printed.
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
- * Return: nothing.
+ * Return: Nothing
  */
 void _puts(char *str)
 {
 	int i = 0;
 
-	while (*str)
+	if (!str)
+		return;
+	while (str[i] != '\0')
 	{
-		_putchar(str[i++]);
+		_putchar(str[i]);
+		i++;
 	}
-	_putchar('\n');
 }
+
 /**
- * _putchar - writes the char c to stdout.
-<<<<<<< HEAD
- * @c: character to be written
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
  *
-=======
- * @c: char to be written.
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
- * Return: the char written on success.
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
 int _putchar(char c)
 {
-	return (putchar(c));
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(1, buf, i);
+		i = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
 }

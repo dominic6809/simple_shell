@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * _eputs - prints a string to the standard error stream.
- * @str: string to be printed
+ * _eputs - outputs a string to the standard error stream.
+ * @str: the string to be printed.
  */
 void _eputs(char *str)
 {
@@ -15,33 +15,30 @@ void _eputs(char *str)
 	}
 }
 /**
- * _eputchar - writes a char to the standard error stream
- * @c: char to be written.
- * Return: number of chars written.
+ * _eputchar - writes a char to the standard error stream.
+ * @c: the character to be written.
+ * Return: the number of chars written.
  */
-
 int _eputchar(char c)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	static char buff[WRITE_BUF_SIZE];
+	int i;
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (c == BUF_FLUSH || WRITE_BUF_SIZE)
 	{
-		write(2, buf, i);
+		write(2, buff, i);
 		i = 0;
 	}
 	if (c != BUF_FLUSH)
-		buf[i++] = c;
+		buff[i++] = c;
 	return (1);
 }
-
 /**
- * _putfd - writes a char to the specified file descriptor.
- * @c: char to be written.
- * @fd: file descriptor where it writes.
+ * _putfd - writes a char to the specified file descriptor
+ * @c: the char to be written.
+ * @fd: the file descriptor to write to.
  * Return: the number of chars written.
  */
-
 int _putfd(char c, int fd)
 {
 	static int i;
@@ -56,14 +53,12 @@ int _putfd(char c, int fd)
 		buf[i++] = c;
 	return (1);
 }
-
 /**
  * _putsfd - writes a string to the specified file descriptor.
- * @str: string to be written.
- * @fd: file descriptor where it writes.
- * Return: number of chars written.
+ * @str: the string to be written.
+ * @fd: the file descriptor to write to.
+ * Return: the number of chars written.
  */
-
 int _putsfd(char *str, int fd)
 {
 	int i = 0;

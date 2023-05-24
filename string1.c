@@ -1,10 +1,9 @@
 #include "shell.h"
 
 /**
- * _strlen - calculates the len of the string
+ * _strlen - calculates the length of the string.
  * @s: pointer to the string
- *
- * Return: length of string
+ * Return: length of the string.
  */
 int _strlen(char *s)
 {
@@ -14,13 +13,12 @@ int _strlen(char *s)
 		len++;
 	return (len);
 }
-
 /**
  * _strcmp - compares two strings
- * @s1: pointer to the first string
+ * @s1: pointer to the first string.
  * @s2: pointer to the second string.
- * Return: 0 (if strings are equal, a neagtive value)
- * if s1 < s2, a positive value and if s1 > s2
+ * Return: 0 if the strings are equal, a negative value
+ * if s1 < s2, a positive value if s1 > s2
  */
 int _strcmp(char *s1, char *s2)
 {
@@ -34,12 +32,11 @@ int _strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 /**
- * starts_with - checks if a string starts with a given prefix
+ * starts_with - checks if a string starts with a given prefix.
  * @str: pointer to the string.
  * @prefix: pointer to the prefix.
- *
- * Return: pointer to the rest of the string after the prefix, NULL
- * incase the string does not start with the prefix.
+ * Return: pointer to the rest of the string after the prefix,
+ * NULL if the string does not start with the prefix.
  */
 char *starts_with(const char *str, const char *prefix)
 {
@@ -52,12 +49,11 @@ char *starts_with(const char *str, const char *prefix)
 	}
 	return ((char *)str);
 }
-
 /**
- * _strcat - concat two strings.
- * @dest: pointer to the destination string
- * @src: pointer to the source string.
- *
+ * _strcat - concatenates two strings.
+ * dest: pointer to the destination string.
+ * @src:
+ * pointer to the source string.
  * Return: pointer to the destination string.
  */
 char *_strcat(char *dest, char *src)
@@ -67,6 +63,7 @@ char *_strcat(char *dest, char *src)
 
 	for (i = 0; src[i] != '\0'; i++)
 		dest[dest_len + i] = src[i];
+
 	dest[dest_len + i] = '\0';
 	return (dest);
 }
