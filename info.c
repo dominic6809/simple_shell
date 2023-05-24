@@ -21,7 +21,7 @@ void clear_info(info_t *info)
  */
 void set_info(info_t *info, char **av)
 {
-	if (!info == NULL || av == NULL)
+	if (info == NULL || av == NULL)
 		return;
 
 	info->argv = av;
