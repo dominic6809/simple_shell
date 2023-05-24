@@ -25,7 +25,6 @@ int _erratoi(char *str)
 	}
 	return (result);
 }
-
 /**
  * print_error - outputs an error.
  * @info: a pointer to the info_t struct.
@@ -33,81 +32,95 @@ int _erratoi(char *str)
  */
 void print_error(info_t *info, char *msg)
 {
-	_putsfd(info->fname, 2);
-	_putsfd(":", 2);
-	_putsfd(msg, 2);
-}
-/**
- * print_d - prints a number with leading zeros
- * @n: number to print.
- * @num_digits: minimum number of digits to print.
- * Return: number of digits printed.
+        _putsfd(info->fname, 2);
+        _putsfd(":", 2);
+        _putsfd(msg, 2);
+}/**
+ * print_d - prints an integer to file descriptor
+ * @input: The integer to print.
+ * @fd: file descriptor to write to
+ *
+ * Return: number of characters written, -1 on error.
  */
-int print_d(int n, int num_digits)
+int print_d(int input, int fd)
 {
-	int i, num_zeros;
+        int i;
+        int len = 0;
+        int count = 0;
+        char buff[20];
 
-	num_zeros = num_digits - _numlen(n);
-	if (num_zeros > 0)
-	{
-		for (i = 0; i < num_zeros; i++)
-			_putchar('0');
-	}
-	return (_putnbr(n));
+        if (input < 0)
+        {
+                input = -input;
+                count += write(fd, "0", 1);
+        }
+        if (input == 0)
+        {
+                count += write(fd, "0", 1);
+                return (count);
+        }
+        while
+                (input > 0)
+                {
+                        buff[len++] = '0' + (input % 10);
+                        input /= 10;
+                }
+        for (i = len - 1; i >= 0; i--)
+        {
+                count += write(fd, &buff[i], 1);
+        }
+        return (count);
 }
 /**
  * convert_number - changes a number to a string with a given base
- * @num: number to convert.
+ * @num: the number to convert.
  * @base: base to convert to.
  * @uppercase: whether to use uppercase or lowercase letters.
  * Return: pointer to the string representation of the number.
  */
-
 char *convert_number(long int num, int base, int uppercase)
 {
-	static char buffer[50];
-	char *ptr;
-	char hex_digits[] = "0123456789abcdef";
-	char HEX_DIGITS[] = "0123456789ABCDEF";
+        static char buffer[50];
+        char *ptr;
+        char hex_digits[] = "0123456789abcdef";
+        char HEX_DIGITS[] = "0123456789ABCDEF";
 
-	ptr = &buffer[49];
-	*ptr = '\0';
+        ptr = &buffer[49];
+        *ptr = '\0';
 
-	do {
-		if (uppercase)
-			*--ptr = HEX_DIGITS[num % base];
-		else
-			*--ptr = hex_digits[num % base];
-		num /= base;
-	} while (num != 0);
-	return (ptr);
+        do {
+                if (uppercase)
+                        *--ptr = HEX_DIGITS[num % base];
+                else
+                        *--ptr = hex_digits[num % base];
+                num /= base;
+        } while (num != 0);
+        return (ptr);
 }
-
 /**
  * remove_comments - ommits comments from a string.
  * @str: the string to remove comments from.
  */
-
 void remove_comments(char *str)
 {
-	int i, in_comment, len;
+        int i, in_comment, len;
 
-	len = _strlen(str);
-	in_comment = 0;
+        len = _strlen(str);
+        in_comment = 0;
 
-	for (i = 0; i < len; i++)
-	{
-		if (in_comment)
-		{
-			if (str[i] == '\n')
-				in_comment = 0;
-			else
-				str[i] = '\n';
-		}
-		else
-		{
-			if (str[i] == '#')
-				in_comment = 1;
-		}
-	}
+        for (i = 0; i < len; i++)
+        {
+                if (in_comment)
+                {
+                        if (str[i] == '\n')
+                                in_comment = 0;
+                        else
+                                str[i] = '#';
+                }
+                else
+                {
+                        if (str[i] == '#')
+                                in_comment = 1;
+                }
+        }
 }
