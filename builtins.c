@@ -12,18 +12,11 @@ int _myexit(info_t *info)
 	/* check for arguments */
 	if (info->argv[1])
 	{
-		/* converts args to an integer */
-<<<<<<< HEAD
 		exit_status = _erratoi(info->argv[1]);
-=======
 		exit_status = _atoi(&info->arg[1]);
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
-	}
-	/* free mem */
-	free_info(info, 1);
 
-	/* exit shell */
-	exit(exit_status);
+		free_info(info, 1);
+		exit(exit_status);
 }
 /**
  * _mycd - change current working directory.
@@ -48,11 +41,8 @@ int _mycd(info_t *info)
 	}
 	else
 	{
-<<<<<<< HEAD
 		dir = info->argv[1];
-=======
 		dir = &info->arg[1];
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 	}
 	/* change directory */
 	if (chdir(dir) == -1)
@@ -71,15 +61,12 @@ int _mycd(info_t *info)
  */
 int _myhelp(info_t *info)
 {
-<<<<<<< HEAD
 	(void)info;
 	char **arg_array = info->argv;
 
 	-puts("help info:\n");
 	if (arg_array)
 		-puts(*arg_array);
-
-=======
 	int i;
 	char *commands[] = {
 		"cd", "exit", "help", NULL
@@ -96,6 +83,5 @@ int _myhelp(info_t *info)
 	{
 		printf("%s - %s\n", commands[i], descriptions[i]);
 	}
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 	return (0);
 }

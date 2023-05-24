@@ -78,6 +78,11 @@ char *find_path(info_t *info, char *dir, char *cmd)
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
+	if(is_cmd(info, cmd))
+		return (cmd);
+	if (is_cmd(info, path))
+		return (path);
+
 	snprintf(path, dir_len + cmd_len + 2, "%s/%s", dir, cmd);
 
 	return (path);
