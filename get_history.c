@@ -242,5 +242,4 @@ int read_history(info_t *info)
     fclose(fp);
     free(history_file);
     return 1;
->>>>>>> d047200e68ae482077e4f94507316c8d16aea9d7
 }
