@@ -1,124 +1,137 @@
 #include "shell.h"
 
 /**
- * erratoi - converts a string to an integer.
- * @str: string to be changed.
- * Return: integer value of the string.
+ * _erratoi - converts a string to an integer
+ * @s: the string to be converted
+ * Return: 0 if no numbers in string, converted number otherwise
+ *       -1 on error
  */
-int erratoi(char *str)
+int _erratoi(char *s)
 {
-	int i, result;
+	int i = 0;
+	unsigned long int result = 0;
 
-	result = 0;
-
-	for (i = 0; str[i] != '\0'; i++)
+	if (*s == '+')
+		s++;  /* TODO: why does this make main return 255? */
+	for (i = 0;  s[i] != '\0'; i++)
 	{
-		if (str[i] >= '0' && str[i] <= '9')
-			result = result * 10 + (str[i] - '0');
-		else
+		if (s[i] >= '0' && s[i] <= '9')
 		{
-			_puts("error: invalid argument\n");
-			return (-1);
+			result *= 10;
+			result += (s[i] - '0');
+			if (result > INT_MAX)
+				return (-1);
 		}
+		else
+			return (-1);
 	}
 	return (result);
 }
 /**
- * print_error - outputs an error
- * @info: a ponter to the info_t struct.
- * @msg: error message to print.
- */
-void print_error(info_t *info, char *msg)
-{
-	_putsfd(info->fname, 2);
-	_putsfd(":", 2);
-	_putsfd(msg, 2);
-}
-/**
- * print_d - outputs an integer to the file descriptor
- * @input: the integer to print.
- * @fd: the file descriptor to write.
- * Return: number of chars written, -1 on error.
+ * print_d - function prints a decimal (integer) number (base 10)
+ * @input: the input
+ * @fd: the filedescriptor to write to
+ *
+ * Return: number of characters printed
  */
 int print_d(int input, int fd)
 {
-	int i;
-	int len = 0;
-	int count = 0;
-	char buff[20];
+	int (*__putchar)(char) = _putchar;
+	int i, count = 0;
+	unsigned int _abs_, current;
 
+	if (fd == STDERR_FILENO)
+		__putchar = _eputchar;
 	if (input < 0)
 	{
-		input = -input;
-		count += write(fd, "0", 1);
+		_abs_ = -input;
+		__putchar('-');
+		count++;
 	}
-	if (input == 0)
+	else
+		_abs_ = input;
+	current = _abs_;
+	for (i = 1000000000; i > 1; i /= 10)
 	{
-		count += write(fd, "0", 1);
-		return (count);
-	}
-	while
-		(input > 0)
+		if (_abs_ / i)
 		{
-			buff[len++] = '0' + (input % 10);
-			input /= 10;
+			__putchar('0' + current / i);
+			count++;
 		}
-	for (i = len - 1; i >= 0; i--)
-	{
-		count += write(fd, &buff[i], 1);
+		current %= i;
 	}
+	__putchar('0' + current);
+	count++;
+
 	return (count);
 }
 /**
- * convert_number - changes a number to a string with a given base.
- * @num: the number to convert.
- * @base: base to convert to.
- * @uppercase: whether to use uppercase or lowercase letters.
- * Return: pointer to the string representation of the number.
+ * remove_comments - function replaces first instance of '#' with '\0'
+ * @buf: address of the string to modify
+ *
+ * Return: Always 0;
  */
-char *convert_number(long int num, int base, int uppercase)
+void remove_comments(char *buf)
 {
-	static char buffer[50];
-	char *ptr;
-	char hex_digits[] = "0123456789abcdef";
-	char HEX_DIGITS[] = "0123456789ABCDEF";
+	int i;
 
+	for (i = 0; buf[i] != '\0'; i++)
+		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+		{
+			buf[i] = '\0';
+			break;
+		}
+}
+
+/**
+ * convert_number - converter function, a clone of itoa
+ * @num: number
+ * @base: base
+ * @flags: argument flags
+ *
+ * Return: string
+ */
+char *convert_number(long int num, int base, int flags)
+{
+	static char *array;
+	static char buffer[50];
+	char sign = 0;
+	char *ptr;
+	unsigned long n = num;
+
+	if (!(flags & CONVERT_UNSIGNED) && num < 0)
+	{
+		n = -num;
+		sign = '-';
+
+	}
+	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
 	ptr = &buffer[49];
 	*ptr = '\0';
 
-	do {
-		if (uppercase)
-			*--ptr = HEX_DIGITS[num % base];
-		else
-			*--ptr = hex_digits[num % base];
-		num /= base;
-	} while (num != 0);
+	do	{
+		*--ptr = array[n % base];
+		n /= base;
+	} while (n != 0);
+
+	if (sign)
+		*--ptr = sign;
 	return (ptr);
 }
 /**
- * remove_comments - ommits comments from a string.
- * @str: the string to remove comments from.
+ * print_error - prints an error message
+ * @info: the parameter & return info struct
+ * @estr: string containing specified error type
+ * Return: 0 if no numbers in string, converted number otherwise
+ *        -1 on error
  */
-void remove_comments(char *str)
+void print_error(info_t *info, char *estr)
 {
-	int i, in_comment, len;
-
-	len = _strlen(str);
-	in_comment = 0;
-
-	for (i = 0; i < len; i++)
-	{
-		if (in_comment)
-		{
-			if (str[i] == '\n')
-				in_comment = 0;
-			else
-				str[i] = '#';
-		}
-		else
-		{
-			if (str[i] == '#')
-				in_comment = 1;
-		}
-	}
+	_eputs(info->fname);
+	_eputs(": ");
+	print_d(info->line_count, STDERR_FILENO);
+	_eputs(": ");
+	_eputs(info->argv[0]);
+	_eputs(": ");
+	_eputs(estr);
 }
