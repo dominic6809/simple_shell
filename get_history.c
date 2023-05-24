@@ -24,8 +24,6 @@ char *get_history_file(info_t *info)
 
 	if (file_path == NULL)
 	{
-		free(HIST_FILE);
-
 		return (NULL);
 	}
 	_strcpy(file_path, dir);
@@ -36,10 +34,10 @@ char *get_history_file(info_t *info)
 		file_path[_strlen(dir) + 1] = '\0';
 	}
 	_strcat(file_path, HIST_FILE);
-	free(HIST_FILE);
 	free(dir);
+	_strcpy(file_path, dir);
 
-	return file_path;
+	return (file_path);
 }
 /**
  * renumber_history - Renumber the history list
@@ -69,99 +67,110 @@ int renumber_history(info_t *info)
  */
 int build_history_list(info_t *info, char *buf, int linecount)
 {
-    char *p = buf, *end;
-    char *entry;
-    int count = 0;
+	char *p = buf, *end;
+	char *entry;
+	int count = 0;
 
-    if (!p || !*p)
-        return 0;
+	if (!p || !*p)
+		return (0);
+	while
+		((end = strchr(p, '\n')))
+		{
+			*end = '\0';
+			entry = strdup(p);
 
-    while ((end = strchr(p, '\n'))) {
-        *end = '\0';
-        entry = strdup(p);
-        if (!entry)
-            return count;
-        if (!add_node_end(&(info->history), entry, linecount + count))
-            return count;
-        p = end + 1;
-        count++;
-    }
+			if (!entry)
+				return (count);
+			if (!add_node_end(&(info->history), entry, linecount + count))
+				return (count);
 
-    return count;
+			p = end + 1;
+			count++;
+		}
+	return (count);
 }
 /**
- * read_history - Reads the history file and stores its contents in the info struct
+ * read_history - Reads the history file and stores in info struct
  * @info: Pointer to the info_t struct
  *
  * Return: 1 on success, 0 on failure
  */
 int read_history(info_t *info)
 {
-    char *history_file = get_history_file(info);
-    FILE *fp;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    int linecount = 0;
+	char *history_file = get_history_file(info);
+	FILE *fp;
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t read;
+	int linecount = 0;
 
-    if (!history_file)
-        return 0;
+	if (!history_file)
+		return (0);
 
-    fp = fopen(history_file, "r");
-    if (!fp) {
-        free(history_file);
-        return 0;
-    }
+	fp = fopen(history_file, "r");
+	if (!fp)
+	{
+		free(history_file);
+		return (0);
+	}
 
-    while ((read = getline(&line, &len, fp)) != -1) {
-        if (read > 0 && line[read - 1] == '\n')
-            line[read - 1] = '\0';
-        if (!add_node_end(&(info->history), line, linecount)) {
-            free(history_file);
-            fclose(fp);
-            return 0;
-        }
-        linecount++;
-    }
+	while
+		((read = getline(&line, &len, fp)) != -1)
+		{
+			if (read > 0 && line[read - 1] == '\n')
+				line[read - 1] = '\0';
+			if (!add_node_end(&(info->history), line, linecount))
+			{
+				free(history_file);
+				fclose(fp);
 
-    free(line);
-    fclose(fp);
-    free(history_file);
-    return 1;
+				return (0);
+			}
+			linecount++;
+		}
+	free(line);
+	fclose(fp);
+	free(history_file);
+
+	return (1);
 }
-
 /**
  * write_history - Writes the command history to a file
  * @info: Pointer to the info_t struct
  *
- * Return: 1 on success, 0 on failure
+ * Return: 1 on success, -1 on failure
  */
 int write_history(info_t *info)
 {
-    char *history_file;
-    int fd, i;
+	char *history_file  = get_history_file(info);
+	int fd, i;
+	list_t *node = NULL;
 
-    history_file = get_history_file(info);
-    if (!history_file)
-        return 0;
+	history_file = get_history_file(info);
 
-    fd = open(history_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-    if (fd == -1) {
-        free(history_file);
-        return 0;
-    }
+	if (!history_file)
+		return (-1);
 
-    for (i = 0; i < info->history; i++) {
-        if (write(fd, info->history[i], strlen(info->history[i])) == -1 ||
-            write(fd, "\n", 1) == -1) {
-            close(fd);
-            free(history_file);
-            return 0;
-        }
-    }
+	fd = open(history_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 
-    close(fd);
-    free(history_file);
+	if (fd == -1)
+	{
+		free(history_file);
+		return (-1);
+	}
+	for (node = info->history; node; node = node->next)
+	{
+		if (write(fd, node->str, _strlen(node->str)) == -1 ||
+				write(fd, "\n", 1) == -1)
+		{
+			close(fd);
+			free(history_file);
 
-    return 1;
+			return (-1);
+		}
+	}
+	close(fd);
+	free(history_file);
+
+	return (1);
 }

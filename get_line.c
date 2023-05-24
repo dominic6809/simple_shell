@@ -14,7 +14,6 @@ ssize_t get_input(info_t *info)
 		return (-1);
 
 	/* read input from STDIN using getline */
-	chars_read = _getline(STDIN_FILENO, info->buffer, BUF_size);
 	if (chars_read == -1)
 		perror("_getline");
 
@@ -50,7 +49,90 @@ int _getline(info_t *info, char **buffer, size_t *buf_size)
 		ffree(buffer);
 		return (-1);
 	}
-	/* remove trailing newline char */
+	/* remove trailing newline char *ne - reads a line from STDIN.
+	 *  * @info: pointer to info_t struct.
+	 *   * @buffer: pointer to buffer to store line
+	 *    * @buf_size: pointer to size of buffer.
+	 *     *
+	 *      * Return: number of characters read or -1 incase error
+	 *       *//**
+		      * _getline - reads a line from STDIN.
+		      *  * @info: pointer to info_t struct.
+		      *   * @buffer: pointer to buffer to store line
+		      *    * @buf_size: pointer to size of buffer.
+		      *     *
+		      *      * Return: number of characters read or -1 incase error
+		      *       *//**
+				   * _getline - reads a line from STDIN.
+				   *  * @info: pointer to info_t struct.
+				   *   * @buffer: pointer to buffer to store line
+				   *    * @buf_size: pointer to size of buffer.
+				   *     *
+				   *      * Return: number of characters read or -1 incase error
+				   *       *//**
+					        * _getline - reads a line from STDIN.
+						*  * @info: pointer to info_t struct.
+						*   * @buffer: pointer to buffer to store line
+						*    * @buf_size: pointer to size of buffer.
+						*     *
+						*      * Return: number of characters read or -1 incase error
+						*       *//**
+							     * _getline - reads a line from STDIN.
+							     *  * @info: pointer to info_t struct.
+							     *   * @buffer: pointer to buffer to store line
+							     *    * @buf_size: pointer to size of buffer.
+							     *     *
+							     *      * Return: number of characters read or -1 incase error
+							     *       *//**
+									  * _getline - reads a line from STDIN.
+									  *  * @info: pointer to info_t struct.
+									  *   * @buffer: pointer to buffer to store line
+									  *    * @buf_size: pointer to size of buffer.
+									  *     *
+									  *      * Return: number of characters read or -1 incase error
+									  *       *//**
+										       * _getline - reads a line from STDIN.
+										       *  * @info: pointer to info_t struct.
+										       *   * @buffer: pointer to buffer to store line
+										       *    * @buf_size: pointer to size of buffer.
+										       *     *
+										       *      * Return: number of characters read or -1 incase error
+										       *       *//**
+												    * _getline - reads a line from STDIN.
+												    *  * @info: pointer to info_t struct.
+												    *   * @buffer: pointer to buffer to store line
+												    *    * @buf_size: pointer to size of buffer.
+												    *     *
+												    *      * Return: number of characters read or -1 incase error
+												    *       *//**
+														 * _getline - reads a line from STDIN.
+														 *  * @info: pointer to info_t struct.
+														 *   * @buffer: pointer to buffer to store line
+														 *    * @buf_size: pointer to size of buffer.
+														 *     *
+														 *      * Return: number of characters read or -1 incase error
+														 *       *//**
+															      * _getline - reads a line from STDIN.
+															      *  * @info: pointer to info_t struct.
+															      *   * @buffer: pointer to buffer to store line
+															      *    * @buf_size: pointer to size of buffer.
+															      *     *
+															      *      * Return: number of characters read or -1 incase error
+															      *       *//**
+																	   * _getline - reads a line from STDIN.
+																	   *  * @info: pointer to info_t struct.
+																	   *   * @buffer: pointer to buffer to store line
+																	   *    * @buf_size: pointer to size of buffer.
+																	   *     *
+																	   *      * Return: number of characters read or -1 incase error
+																	   *       *//**
+																		        * _getline - reads a line from STDIN.
+																			*  * @info: pointer to info_t struct.
+																			*   * @buffer: pointer to buffer to store line
+																			*    * @buf_size: pointer to size of buffer.
+																			*     *
+																			*      * Return: number of characters read or -1 incase error
+																			*       *//
 	if ((*buffer)[chars_read - 1] == '\n')
 		(*buffer)[chars_read - 1] = '\0';
 	if (_strlen(*buffer) == 0)
@@ -69,7 +151,7 @@ void sigintHandler(int sig_num)
 	if (sig_num == SIGINT)
 	{
 		_puts("\n");
-		_puts(PROMPT);
+		_puts("$");
 		fflush(stdout);
 	}
 }
