@@ -7,9 +7,12 @@
  */
 void clear_info(info_t *info)
 {
-	ffree(info->av);
-	ffree(info->path);
-	ffree(info->env);
+	if (!info)
+		return;
+
+	info->argv = NULL;
+	info->argc = 0;
+	info->environ = NULL;
 }
 
 /**
@@ -20,9 +23,15 @@ void clear_info(info_t *info)
 
 void set_info(info_t *info, char **av)
 {
-	info->av = av;
-	info->path = strtow(get_env_value(info, "PATH"), ":");
-	info->env = (char **)environ;
+	if (info == NULL || av == NULL)
+		return;
+
+	info->argv = av;
+	info->argc = 0;
+
+	while
+		(av[info->argc]);
+	info->argc++;
 }
 /**
  * free_info - frees all memory used by an info_t struct

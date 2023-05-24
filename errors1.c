@@ -1,9 +1,7 @@
-#include "header_file.h"
-
-/* file name: error_utils.c */
+#include "shell.h"
 
 /**
- * erratoi - changes a string to an integer.
+ * _erratoi - changes a string to an integer.
  * @str: string to be changed.
  *
  * Return: integer value of the string.
@@ -33,27 +31,45 @@ int _erratoi(char *str)
  */
 void print_error(info_t *info, char *msg)
 {
-	_putsfd(info->name, 2);
+	_putsfd(info->fname, 2);
 	_putsfd(":", 2);
 	_putsfd(msg, 2);
 }
 /**
- * print_d - prints a number with leading zeros
- * @n: number to print.
- * @num_digits: minimum number of digits to print.
- * Return: number of digits printed.
+ * print_d - prints an integer to file descriptor
+ * @input: The integer to print.
+ * @fd: file descriptor to write to
+ *
+ * Return: number of characters written, -1 on error.
  */
-int print_d(int n, int num_digits)
+int print_d(int input, int fd)
 {
-	int i, num_zeros;
+	int i;
+	int len = 0;
+	int count = 0;
+	char buff[20];
 
-	num_zeros = num_digits - _numlen(n);
-	if (num_zeros > 0)
+	if (input < 0)
 	{
-		for (i = 0; i < num_zeros; i++)
-			_putchar('0');
+		input = -input;
+		count += write(fd, "0", 1);
 	}
-	return (_putnbr(n));
+	if (input == 0)
+	{
+		count += write(fd, "0", 1);
+		return (count);
+	}
+	while
+		(input > 0)
+		{
+			buff[len++] = '0' + (input % 10);
+			input /= 10;
+		}
+	for (i = len - 1; i >= 0; i--)
+	{
+		count += write(fd, &buff[i], 1);
+	}
+	return (count);
 }
 /**
  * convert_number - changes a number to a string with a given base
@@ -99,7 +115,7 @@ void remove_comments(char *str)
 			if (str[i] == '\n')
 				in_comment = 0;
 			else
-				str[i] = '';
+				str[i] = '#';
 		}
 		else
 		{

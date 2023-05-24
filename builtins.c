@@ -10,10 +10,10 @@ int _myexit(info_t *info)
 	int exit_status = 0;
 
 	/* check for arguments */
-	if (info->arg[1])
+	if (info->argv[1])
 	{
 		/* converts args to an integer */
-		exit_status = _atoi(info->arg[1]);
+		exit_status = _erratoi(info->argv[1]);
 	}
 	/* free mem */
 	free_info(info, 1);
@@ -44,7 +44,7 @@ int _mycd(info_t *info)
 	}
 	else
 	{
-		dir = info->arg[1];
+		dir = info->argv[1];
 	}
 	/* change directory */
 	if (chdir(dir) == -1)
@@ -62,20 +62,12 @@ int _mycd(info_t *info)
  */
 int _myhelp(info_t *info)
 {
-	int i;
-	char *commands[] = {
-		"cd", "exit", "help", NULL
-	};
-	char *descriptions[] = {
-		"change directory",
-		"exit the shell";
-		"display help infomation for built-in commands"
-	};
+	(void)info;
+	char **arg_array = info->argv;
 
-	/* prints help information for each command */
-	for (i = 0; commands[i]; i++)
-	{
-		dprintf("%s - %s\n", commands[i], descriptions[i]);
-	}
+	-puts("help info:\n");
+	if (arg_array)
+		-puts(*arg_array);
+
 	return (0);
 }

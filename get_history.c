@@ -54,7 +54,7 @@ int renumber_history(info_t *info)
 
 	while (current)
 	{
-		current->line = i++;
+		current->num = i++;
 		current = current->next;
 	}
 	return (1);
@@ -151,7 +151,7 @@ int write_history(info_t *info)
         return 0;
     }
 
-    for (i = 0; i < info->history_len; i++) {
+    for (i = 0; i < info->history; i++) {
         if (write(fd, info->history[i], strlen(info->history[i])) == -1 ||
             write(fd, "\n", 1) == -1) {
             close(fd);
@@ -165,45 +165,3 @@ int write_history(info_t *info)
 
     return 1;
 }
-
-/**
- * read_history - Reads the history file and stores its contents in the info struct
- * @info: Pointer to the info_t struct
- *
- * Return: 1 on success, 0 on failure
- */
-int read_history(info_t *info)
-{
-    char *history_file = get_history_file(info);
-    FILE *fp;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    int linecount = 0;
-
-    if (!history_file)
-        return 0;
-
-    fp = fopen(history_file, "r");
-    if (!fp) {
-        free(history_file);
-        return 0;
-    }
-
-    while ((read = getline(&line, &len, fp)) != -1) {
-        if (read > 0 && line[read - 1] == '\n')
-            line[read - 1] = '\0';
-        if (!add_node_end(&(info->history), line, linecount)) {
-            free(history_file);
-            fclose(fp);
-            return 0;
-        }
-        linecount++;
-    }
-
-    free(line);
-    fclose(fp);
-    free(history_file);
-    return 1;
-}
-

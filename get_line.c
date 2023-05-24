@@ -4,21 +4,19 @@
  * get_input - reads input from STDIN and stores it in info_t struct
  * @info: pointer to info_t struct.
  *
- * Returns: number of chars read or (-1) incase of an error.
+ * Return: number of chars read or (-1) incase of an error.
  */
 ssize_t get_input(info_t *info)
 {
 	ssize_t chars_read;
-	size_t input_size = 0;
-	char *input_buffer = Null;
+
+	if (info == NULL)
+		return (-1);
 
 	/* read input from STDIN using getline */
-	chars_read = _getline(info, &input_buffer, &input_size);
+	chars_read = _getline(STDIN_FILENO, info->buffer, BUF_size);
 	if (chars_read == -1)
-		return (-1);
-	/* store input in info_t struct */
-	info->input = input_buffer;
-	info->input_len = (size_t)chars_read;
+		perror("_getline");
 
 	return (chars_read);
 }
