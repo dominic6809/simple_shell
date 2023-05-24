@@ -2,12 +2,13 @@
 
 /**
  * _strcpy - copies the string to the buffer pointed to by dest.
- * @src: pointer to the string.
+ * @src: pointer to the source string.
  * @dest: pointer to the destination string.
  * Returns: pointer to the destination string.
  */
 char *_strcpy(char *dest, char *src)
 {
+	int i = 0;
 	char *orig_dest = dest;
 
 	while (*src)
@@ -17,47 +18,50 @@ char *_strcpy(char *dest, char *src)
 	*dest = '\0';
 	return (orig_dest);
 }
-
 /**
- * _strdup - duplicates the string pointed to by src,
- * allocating mem for the new string using malloc.
- * @src: pointer to the source string.
- *
- * Returns: a pointer to the duplicated string, or (NULL)
- * incase the allocation fails.
+ * _strdup - it duplicates a string.
+ * str: the sztring to duplicate.
+ * Return: a pointer to the duplicate string.
  */
-
-char *_strdup(const char *src)
+char *_strdup(const char *str)
 {
-	size_t len = _strlen(src);
-	char *dup = malloc(len + 1);
+	char *duplicate;
+	int length, i;
 
-	if (!dup)
-	{
+	if (str == NULL)
 		return (NULL);
-	}
 
-	_strcpy(dup, (char *)src);
+	length = 0;
+	while (str[length] != '\0')
+		length++;
 
-	return (dup);
+	duplicate = malloc(sizeof(char) * (length + 1));
+	if (duplicate == NULL)
+		return (NULL);
+
+	for (i = 0; i <= length; i++)
+		duplicate[i] = str[i];
+	return (duplicate);
 }
 /**
- * _puts - outputs the null-terminated string pointed to by str to stdout.
+ * _puts - prints the null-terminated string pointed to by str to stdout.
+ * str: string to be printed.
  * Return: nothing.
  */
 void _puts(char *str)
 {
+	int i = 0;
+
 	while (*str)
 	{
-		_putchar(*str++);
+		_putchar(str[i++]);
 	}
 	_putchar('\n');
 }
-
 /**
  * _putchar - writes the char c to stdout.
- *
- * Returns: the char written.
+ * @c: char to be written.
+ * Return: the char written on success.
  */
 int _putchar(char c)
 {
