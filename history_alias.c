@@ -8,64 +8,87 @@
 
 int _myhistory(info_t *info)
 {
-	int i, hist_count;
-	list_t *hist;
+	int count = 1;
+	list_t *node = info->history;
 
-	hist = info->history;
-	hist_count = hist->count;
 
-	for (i = hist_count; i > 0; i--)
-	{
-		printf("%d%s\n", i, hist->history[i - 1]);
-	}
-	return (1);
+	while
+		(node)
+		{
+			printf("%d\n", count);
+			node = node->next;
+			count++;
+		}
+	return (0);
 }
-
 /**
- * _myalias - creates or outputs alias for a command.
- * @info: pointer to the info_t struct.
- * Return: (1) always upon success, to continue executing.
+ * set_alias - it sets alias to string.
+ * @info: parameter struct.
+ * @str: the string alias.
+ * Return: 0 always upon success, otherwise 1 on error
+ */
+int set_alias(info_t *info, char *str)
+{
+	int ret;
+	char *p, *alias, *value;
+
+	p = _strchr(str, '=');
+
+	if (!p)
+		return (1);
+
+	alias = str;
+	value = p + 1;
+	p = '\0';
+
+	if (ret == 1)
+		return (1);
+
+	return (0);
+}
+/**
+ * _myalias - creates or outputs an alias for a command.
+ * @info: a pointer to the info_t struct.
+ * Return: always 0 on success
  */
 int _myalias(info_t *info)
 {
-	int i, flag = 0;
-	alias_t *alias;
-	char *cmd;
-	char ALIAS_LEN;
+	int i;
 
-	alias = info->alias;
-	cmd = strtok(NULL, "");
-
-	if (cmd == NULL)
+	if (info->argc == 1)
 	{
-		for (i = 0; i < ALIAS_LEN; i++)
-		{
-			if (alias[i].name != NULL)
-			{
-				printf("%s = '%s'\n", alias[i].name, alias[i].value);
-			}
-		}
+		print_list(info->alias);
+
+		return (0);
 	}
-	else
+	for (i = 1; info->argv[i]; i++)
 	{
-		for (i = 0; i < ALIAS_LEN; i++)
-		{
-			if (alias[i].name != NULL && strcmp(alias[i].name, cmd) == 0)
-			{
-				printf("%s = '%s'\n", alias[i].name, alias[i].value);
-				flag = 1;
-				break;
-			}
-		}
-		if (!flag)
-		{
-			for (i = 0; i < ALIAS_LEN; i++)
-			{
-				if (alias[i].name == NULL)
-					alias[i].name = strdup(cmd);
-					alias[i].value = strdup(strtok(NULL, "\n"));
-			}
-		}
+		char *m = _strchr(info->argv[i], '=');
+
+		if (m)
+			set_alias(info, info->argv[i]);
+	}
+	return (0);
+}
+/**
+ * print_alias - it prints an alias string.
+ * @node: the alias node.
+ * Return: 0 always on success, 1 on error.
+ */
+int print_alias(list_t *node)
+{
+	char *m = NULL, *t = NULL;
+
+	if (node)
+	{
+		m = _strchr(node->str, '=');
+
+		for (t = node->str; t <= m; t++)
+			_putchar(*t);
+		_putchar('\n');
+		_puts(m + 1);
+		_puts("\n");
+		return (0);
 	}
 	return (1);
 }
