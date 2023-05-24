@@ -16,16 +16,15 @@ char **strtow(char *str, char *delim)
 
 	if (str == NULL || delim == NULL)
 		return (NULL);
-
-	word_count = count_words(str, delim);
-
-	words = malloc(sizeof(char *) * (word_count + 1));
 	if (words == NULL)
 		return (NULL);
 
-	for (i = 0; i < word_count; i++)
+	for (i = 0; str[i] != '\0'; i++)
 	{
-		len = word_len(&str[0], delim);
+		len = 0;
+		while (str[i + len] != *delim && str[i + len] != '\0')
+			len++;
+
 		word = malloc(sizeof(char) * (len + 1));
 		if (word == NULL)
 			return (NULL);
@@ -37,10 +36,11 @@ char **strtow(char *str, char *delim)
 
 		word[j] = '\0';
 		words[i] = word;
-		str += delim_len(&str[0], delim);
+		words = realloc(words, sizeof(char *) * (i + 2));
+		i += len;
 	}
 
-	words[word_count] = NULL;
+	words[i] = NULL;
 	return (words);
 }
 
@@ -55,21 +55,16 @@ char **strtow(char *str, char *delim)
 char **strtow2(char *str, char delim)
 {
 	char **words, *word;
-	int i, j, len, word_count = 0;
+	int i, j, len, num_words = 0;
 
-	if (str == NULL)
+	if (str == NULL || str[0] == 0)
 		return (NULL);
 
-	word_count = count_words(str, delim);
-	words = malloc(sizeof(char *) * (word_count + 1));
-	if (words == NULL)
-		return (NULL);
-
-	for (i = 0; i < word_count; i++)
+	for (i = 0; str[i] != '\0'; i++)
 	{
-		len = word_len2(&str[0], delim);
-		word = malloc(sizeof(char) * (len + 1));
-		if (word == NULL)
+		len = 0;
+		words = malloc(sizeof(char) * (len + 1));
+		if (words == NULL)
 			return (NULL);
 
 		for (j = 0; j < len; j++)
@@ -82,6 +77,6 @@ char **strtow2(char *str, char delim)
 		str++;
 	}
 
-	words[word_count] = NULL;
+	words[j] = NULL;
 	return (words);
 }
