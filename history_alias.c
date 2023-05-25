@@ -15,13 +15,12 @@ int _myhistory(info_t *info)
 /**
  * _myalias - mimics the alias builtin (man alias)
  * @info: Structure containing potential arguments. Used to maintain
- *  constant function prototype.
+ *   constant function prototype.
  * Return: Always 0
  */
 int _myalias(info_t *info)
 {
-	int i = 0;
-	char *p = NULL;
+	int i;
 	list_t *node = NULL;
 
 	if (info->argc == 1)
@@ -29,18 +28,18 @@ int _myalias(info_t *info)
 		node = info->alias;
 		while (node)
 		{
-			print_list(node);
+			_puts(node->str);
+			_puts("\n");
 			node = node->next;
 		}
 		return (0);
 	}
 	for (i = 1; info->argv[i]; i++)
 	{
-		p = _strchr(info->argv[i], '=');
-		if (p)
-			set_alias(info, info->argv[i]);
-		else
-			print_list(node_starts_with(info->alias, info->argv[i], '='));
+		node = node_starts_with(info->alias, info->argv[i], '=');
+		if (node)
+			_puts(node->str);
+		_puts("\n");
 	}
 
 	return (0);
@@ -63,6 +62,7 @@ int set_alias(info_t *info, char *str)
 	if (!*++p)
 		return (set_alias(info, str));
 
+	set_alias(info, str);
 	return (add_node_end(&(info->alias), str, 0) == NULL);
 }
 
@@ -82,7 +82,7 @@ int unset_alias(info_t *info, char *str)
 	if (!p)
 		return (1);
 	c = *p;
-	*p = '\0';
+	*p = 0;
 	ret = delete_node_at_index(&(info->alias),
 		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
 	*p = c;
@@ -96,21 +96,17 @@ int unset_alias(info_t *info, char *str)
  */
 int print_alias(list_t *node)
 {
-	char *p = NULL;
+	char *p = NULL, *a = NULL;
 
 	if (node)
 	{
 		p = _strchr(node->str, '=');
-
-	if (p)
-	{
-		for (; node->str != p; node->str++)
-		_putchar(*(node->str));
-		_putchar('=');
+		for (a = node->str; a <= p; a++)
+		_putchar(*a);
+		_putchar('\'');
 		_puts(p + 1);
-		_putchar('\n');
+		_puts("'\n");
 		return (0);
-	}
 	}
 	return (1);
 }
