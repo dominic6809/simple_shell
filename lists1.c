@@ -76,7 +76,6 @@ size_t print_list(const list_t *list)
 list_t *node_starts_with(list_t *head, char *start, char type)
 {
 	list_t *node = head;
-	size_t len = strlen(start);
 
 	while (node != NULL)
 	{

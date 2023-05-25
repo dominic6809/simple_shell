@@ -10,11 +10,16 @@
  */
 list_t *add_node(list_t **head, const char *str, int num)
 {
-	list_t *new_node = malloc(sizeof(list_t));
+	list_t *new_node, *node;
+	new_node = malloc(sizeof(list_t));
+	node = *head;
 
 	if (new_node == NULL)
 		return (NULL);
+	if(!head)
+		return (NULL);
 
+	_memset((void *)new_node, 0, sizeof(list_t));
 	new_node->str = malloc(num + 1);
 
 	if (new_node->str == NULL)
@@ -28,43 +33,16 @@ list_t *add_node(list_t **head, const char *str, int num)
 	new_node->num = num;
 	new_node->next = *head;
 	*head = new_node;
+	if (node)
+	{
+		while
+			(node->next)
+				node = node->next;
+
+		node->next = new_node;
+	}
 
 	return (*head);
-}
-
-/**
- * add_node_end - Adds a node at the end of a linked list
- * @head: A pointer to the head of the list
- * @str: The string to be added to the new node
- * @len: node index used by history
- *
- * Return: A pointer to the head of the list
- */
-list_t *add_node_end(list_t **head, const char *str, int num)
-{
-	list_t *new_node = malloc(sizeof(list_t));
-
-	if (new_node == NULL)
-		return (NULL);
-
-	new_node->str = malloc(num + 1);
-
-	if (new_node->str == NULL)
-	{
-		free(new_node);
-		return (NULL);
-	}
-
-	strncpy(new_node->str, str, num);
-	new_node->str[num] = '\0';
-	new_node->num = num;
-	new_node->next = *head;
-
-	if (*head == NULL)
-	{
-		*head = new_node;
-		return (*head);
-	}
 }
 /*
  * free_list - frees all nodes of a list
