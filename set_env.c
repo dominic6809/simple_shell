@@ -55,7 +55,7 @@ int _unsetenv(info_t *info, char *var)
  */
 int _setenv(info_t *info, char *name, char *value)
 {
-	char * var = NULL;
+	char *var = NULL;
 
 	if (!name || !value)
 		return (-1);

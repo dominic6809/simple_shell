@@ -11,12 +11,14 @@
 list_t *add_node(list_t **head, const char *str, int num)
 {
 	list_t *new_node, *node;
+
 	new_node = malloc(sizeof(list_t));
+
 	node = *head;
 
 	if (new_node == NULL)
 		return (NULL);
-	if(!head)
+	if (!head)
 		return (NULL);
 
 	_memset((void *)new_node, 0, sizeof(list_t));
@@ -44,7 +46,7 @@ list_t *add_node(list_t **head, const char *str, int num)
 
 	return (*head);
 }
-/*
+/**
  * free_list - frees all nodes of a list
  * @head_ptr: address of pointer to head node
  *
@@ -127,13 +129,13 @@ int delete_node_at_index(list_t **head, unsigned int index)
 	return (0);
 }
 /**
- *  * add_node_end - adds a node to the end of the list
- *   * @head: address of pointer to head node
- *    * @str: str field of node
- *     * @num: node index used by history
- *      *
- *       * Return: size of list
- *        */
+ * add_node_end - adds a node to the end of the list
+ * @head: address of pointer to head node
+ * @str: str field of node
+ * @num: node index used by history
+ *
+ * Return: size of list
+ */
 list_t *add_node_end(list_t **head, const char *str, int num)
 {
 	list_t *new_node, *node;
@@ -164,11 +166,11 @@ list_t *add_node_end(list_t **head, const char *str, int num)
 		{
 			while (node->next)
 				node = node->next;
+
 			node->next = new_node;
 		}
 		else
 			*head = new_node;
 	}
 	return (new_node);
-
-}	
+}

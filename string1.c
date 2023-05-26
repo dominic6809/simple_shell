@@ -51,7 +51,7 @@ char *starts_with(const char *str, const char *prefix)
 }
 /**
  * _strcat - concatenates two strings.
- * dest: pointer to the destination string.
+ * @dest: pointer to the destination string.
  * @src:
  * pointer to the source string.
  * Return: pointer to the destination string.
