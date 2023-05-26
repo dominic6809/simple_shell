@@ -39,6 +39,7 @@ int _eputchar(char c)
  * @fd: the file descriptor to write to.
  * Return: the number of chars written.
  */
+
 int _putfd(char c, int fd)
 {
 	static int i;
@@ -57,6 +58,7 @@ int _putfd(char c, int fd)
  * _putsfd - writes a string to the specified file descriptor.
  * @str: the string to be written.
  * @fd: the file descriptor to write to.
+ *
  * Return: the number of chars written.
  */
 int _putsfd(char *str, int fd)

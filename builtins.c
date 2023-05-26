@@ -4,7 +4,7 @@
  * _mycd - changes the current directory of the process
  * @info: Structure containing potential arguments. Used to maintain
  * constant function prototype.
- * Return: Always 0
+ * Return: Always 0 when successful
  */
 int _mycd(info_t *info)
 {
