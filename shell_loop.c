@@ -18,6 +18,8 @@ int hsh(info_t *info, char **av)
 		if (interactive(info))
 			_puts("$ ");
 
+		_eputchar(BUF_FLUSH);
+
 		if (get_input(info) == -1)
 		{
 			if (interactive(info))
@@ -40,7 +42,11 @@ int hsh(info_t *info, char **av)
 	if (!interactive(info) && info->status)
 		exit(info->status);
 	if (builtin_ret == -2)
+	{
+		if (info->err_num == -1)
+			exit (info->status);
 		exit(info->err_num);
+	}
 
 	return (builtin_ret);
 }

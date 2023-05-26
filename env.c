@@ -18,7 +18,6 @@ char *_getenv(info_t *info, const char *name)
 		p = starts_with(node->str, name);
 		if (p && *p)
 			return (p);
-		node = node->next;
 	}
 	return (NULL);
 }
@@ -84,8 +83,11 @@ int populate_env_list(info_t *info)
 	list_t *node = NULL;
 	size_t i;
 
+	node = info->history;
+
 	for (i = 0; environ[i]; i++)
-		add_node_end(&node, environ[i], 0);
+		add_node_end(&(info->history), environ[i], 0);
 	info->env = node;
+
 	return (0);
 }

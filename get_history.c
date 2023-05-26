@@ -89,7 +89,7 @@ int build_history_list(info_t *info, char *buf, int linecount)
  * read_history - Reads the history file and stores in info struct
  * @info: Pointer to the info_t struct
  *
- * Return: 1 on success, 0 on failure
+* Return: 1 on success, 0 on failure
  */
 int read_history(info_t *info)
 {
@@ -99,6 +99,7 @@ int read_history(info_t *info)
 	size_t len = 0;
 	ssize_t read;
 	int linecount = 0;
+	list_t *node = NULL;
 
 	if (!history_file)
 		return (0);
@@ -109,12 +110,15 @@ int read_history(info_t *info)
 		free(history_file);
 		return (0);
 	}
-
 	while
 		((read = getline(&line, &len, fp)) != -1)
 		{
 			if (read > 0 && line[read - 1] == '\n')
 				line[read - 1] = '\0';
+
+			node = info->history;
+			add_node_end(&node, line, linecount);
+
 			if (!add_node_end(&(info->history), line, linecount))
 			{
 				free(history_file);
@@ -141,7 +145,6 @@ int write_history(info_t *info)
 	char *history_file  = get_history_file(info);
 	int fd;
 	list_t *node = NULL;
-
 
 	if (!history_file)
 		return (-1);

@@ -244,9 +244,9 @@ size_t list_len(const list_t *);
 char **list_to_strings(list_t *);
 size_t print_list(const list_t *);
 list_t *node_starts_with(list_t *, char *, char);
-ssize_t get_node_index(list_t *, list_t *)
+ssize_t get_node_index(list_t *, list_t *);
 
-;/* toem_get_history.c */
+/* toem_get_history.c */
 char *get_history_file(info_t *info);
 int write_history(info_t *info);
 int read_history(info_t *info);
