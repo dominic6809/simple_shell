@@ -1,6 +1,4 @@
 #include "shell.h"
-
-
 /**
  * _getenv - gets the value of an environ variable
  * @info: Structure containing potential arguments. Used to maintain

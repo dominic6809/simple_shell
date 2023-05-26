@@ -21,24 +21,39 @@ void clear_info(info_t *info)
 
 void set_info(info_t *info, char **av)
 {
-	if (info == NULL || av == NULL)
-		return;
+	int i = 0;
 
-	info->argv = av;
-	info->argc = 0;
+	info->fname = av[0];
 
-	while
-		(av[info->argc]);
-	info->argc++;
+	if (info->arg)
+		info->argv = strtow(info->arg, " \t");
+
+	if (!info->argv)
+	{
+		info->argv = malloc(sizeof(char *) * 2);
+		if (info->argv)
+		{
+			info->argv[0] = _strdup(info->arg);
+			info->argv[1] = NULL;
+		}
+		for (i = 0; info->argv && info->argv[i]; i++)
+
+			info->argc = 0;
+
+		replace_alias(info);
+		replace_vars(info);
 }
 /**
  * free_info - it frees all memory used by info_t struct
  * @info: pointer to info_t struct to free.
- * @exit_code: it exits the code to pass to exit()
+ * @all: freeing all fields
  */
-void free_info(info_t *info, int exit_code)
+void free_info(info_t *info, int all)
 {
-	clear_info(info);
-	free(info);
-	exit(exit_code);
+	info->argv = NULL;
+	ffree(info->argv);
+	info->path = NULL;
+
+	if (all)
+		ffree(all)
 }
