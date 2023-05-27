@@ -46,6 +46,7 @@ void set_info(info_t *info, char **av)
 /**
  * free_info - it frees all memory used by info_t struct
  * @info: pointer to info_t struct to free.
+ *
  * @all: freeing all fields
  */
 void free_info(info_t *info, int all)

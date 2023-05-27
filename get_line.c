@@ -114,7 +114,6 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 /**
  * get_input - gets a line minus the newline
  * @info: parameter struct
- *
  * Return: bytes read
  */
 ssize_t get_input(info_t *info)
@@ -158,7 +157,6 @@ ssize_t get_input(info_t *info)
 /**
  * sigintHandler - blocks ctrl-C
  * @sig_num: the signal number
- *
  * Return: void
  */
 void sigintHandler(__attribute__((unused))int sig_num)
