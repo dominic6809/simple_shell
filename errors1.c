@@ -118,12 +118,13 @@ char *convert_number(long int num, int base, int flags)
 		*--ptr = sign;
 	return (ptr);
 }
+
 /**
  * print_error - prints an error message
  * @info: the parameter & return info struct
  * @estr: string containing specified error type
  * Return: 0 if no numbers in string, converted number otherwise
- *        -1 on error
+ * (-1) on error
  */
 void print_error(info_t *info, char *estr)
 {
