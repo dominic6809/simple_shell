@@ -122,6 +122,9 @@ typedef struct builtin
 	int (*func)(info_t *);
 } builtin_table;
 
+/*toem main,c */
+int main(int ac, char **av)
+
 /* toem_shell_func.c */
 int hsh(info_t *, char **);
 int find_builtin(info_t *);
