@@ -10,8 +10,9 @@
 int hsh(info_t *info, char **av)
 {
 	int builtin_ret = 0;
+	ssize_t n = 0
 
-	while (1)
+	while (n != -1 && builtin_ret != -2)
 	{
 		clear_info(info);
 
@@ -19,41 +20,39 @@ int hsh(info_t *info, char **av)
 			_puts("$ ");
 
 		_eputchar(BUF_FLUSH);
+		n = get_input(info);
 
-		if (get_input(info) == -1)
+		if (n ! == -1)
 		{
+			set_info(info, av);
+			builtin_ret = find_builtin(info);
+			if (builtin_ret == -1)
+				find_cmd(info);
+
 			if (interactive(info))
 				_putchar('\n');
-			break;
+			free_info(info, 0);
 		}
+		write_history(info);
+		free_info(info, 1);
 
-		set_info(info, av);
-		builtin_ret = find_builtin(info);
-
-		if (builtin_ret == -1)
-			find_cmd(info);
-
-		free_info(info, 0);
-	}
-
-	write_history(info);
-	free_info(info, 1);
-
-	if (!interactive(info) && info->status)
-		exit(info->status);
-	if (builtin_ret == -2)
-	{
-		if (info->err_num == -1)
+		if (!interactive(info) && info->status)
 			exit(info->status);
-		exit(info->err_num);
+		if (builtin_ret == -2)
+		{
+			if (info->err_num == -1)
+				exit(info->status);
+			exit(info->err_num);
+		}
+		return (builtin_ret);
 	}
-
-	return (builtin_ret);
-}
 /**
  * find_builtin - finds if command is a builtin
  * @info: shell info struct
- * Return: 0 if a builtin, -1 if not
+ * Return: 0 if a builtin  is executed successfully 
+ * -1 if not
+ *  1 if builtin found is not successful
+ *  2 if builtin signals exit()
  */
 int find_builtin(info_t *info)
 {
@@ -88,7 +87,22 @@ int find_builtin(info_t *info)
  */
 void find_cmd(info_t *info)
 {
-	char *path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	char *path = NULL;
+	int i, t;
+
+	info->path = info->argv[0];
+	if (info->linecount_flag == 1)
+	{
+		info->line_count++;
+		info->linecount_flag = 0;
+	}
+	for (i = 0, t = 0; info->arg[i]; i++)
+		if (!is_delim(info->arg[i], " \t\n"))
+			t++;
+	if (!t)
+		return;
+
+	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
 
 	if (path)
 	{
@@ -117,21 +131,33 @@ void fork_cmd(info_t *info)
 
 	pid = fork();
 
+	if (pid == -1)
+	{
+		perror("Error:");
+		return;
+	}
 	if (pid == 0)
 	{
-		execve(info->path, info->argv, get_environ(info));
-		perror("execve");
-		exit(127);
+		if (execve(info->path, info->argv, get_environ(info)) == -1);
+		free_info(info, 1);
+		if (errno == EACCES)
+			exit(126);
+		exit(1);
 	}
 	else if (pid < 0)
 	{
-		perror("fork error");
-		exit(EXIT_FAILURE);
+		/* TODO: PUT ERROR FUNCTION */
 	}
 	else
 	{
-		do {
-			waitpid(pid, &status, 0);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		wait(&(info->status));
+
+		if (WIFEXITED(info->status))
+		{
+			info->status = WEXITSTATUS(info->status);
+
+			if (info->status == 126)
+				print_error(info, "Permission denied\n");
+		}
 	}
 }
