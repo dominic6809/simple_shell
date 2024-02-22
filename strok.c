@@ -3,15 +3,13 @@
 
 /**
  * custom_strtok - Breaks a string into a series of tokens.
- *
  * @str: The string to be tokenized.
  * @delim: The delimiter characters.
  *
  * Return: A pointer to the next token found in str,
  *         or NULL if there are no more tokens or if str or delim is NULL.
  */
-char *
-custom_strtok(char *str, const char *delim)
+char *custom_strtok(char *str, const char *delim)
 {
 	static char *src;
 	char *p, *ret = 0;
@@ -31,7 +29,7 @@ custom_strtok(char *str, const char *delim)
 	if (*src == '\0')
 		return (NULL);
 
-	/* Find next delimiter */
+	/* Find the next delimiter */
 	p = strpbrk(src, delim);
 
 	/*
@@ -39,15 +37,19 @@ custom_strtok(char *str, const char *delim)
 	* a null character and move src past it
 	*/
 	if (p != NULL)
-{
+	{
 		*p = '\0';
 		ret = src;
 		src = p + 1;
-	} else
-{
-		/* If no more delimiters, return remainder of string as last token */
-		ret = src;
-		src = NULL;
+	}
+	else
+	{
+	/* If no more delimiters, return remainder of string as
+	 * last token
+	 *
+	 */
+	ret = src;
+	src = NULL;
 	}
 
 	/* Trim trailing delimiters */

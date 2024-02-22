@@ -3,65 +3,7 @@
 /**
  * execute - Execute a command with arguments
  * @args: Array of strings containing command and arguments
- * Return: Status code of the command execution
- */
-int execute(char **args);
-int execute_exit(char **args);
-int execute_env(void);
-int execute_command(char **args);
-
-int main(int argc, char **argv)
-{
-    char *program_name;
-
-    program_name = strdup(argv[0]);
-    char input[MAX_ARGS][MAX_ARG_LENGTH];
-    char *args[MAX_ARGS];
-
-    while (1)
-    {
-        shell_prompt();
-        if (shell_read(input[0], MAX_ARG_LENGTH) == NULL)
-        {
-            break;
-        }
-
-        char *token = strtok(input[0], " \n");
-        int i = 0;
-        while (token != NULL)
-        {
-            args[i] = strdup(token);
-            token = strtok(NULL, " \n");
-            i++;
-        }
-        args[i] = NULL;
-
-        if (strcmp(args[0], "exit") == 0)
-        {
-            execute_exit(args);
-        }
-        else if (strcmp(args[0], "env") == 0)
-        {
-            execute_env();
-        }
-        else
-        {
-            execute(args);
-        }
-
-        for (int j = 0; j < i; j++)
-        {
-            free(args[j]);
-        }
-    }
-
-    free(program_name);
-    return 0;
-}
-/**
- * execute - Execute command
- * @args: Array of strings containing command and arguments
- * Return: Always 1
+ * Return: always 1
  */
 int execute(char **args)
 {
@@ -85,10 +27,8 @@ int execute(char **args)
 
 /**
  * execute_exit - Handle the "exit" command
- *
  * @args: Array of strings containing command and arguments
- *
- * Return: Status code of the command execution
+ * Return: Void
  */
 int execute_exit(char **args)
 {
@@ -106,8 +46,7 @@ int execute_exit(char **args)
 
 /**
  * execute_env - Handle the "env" command
- *
- * Return: Status code of the command execution
+ * Return: Status code of the command execution (always 1)
  */
 int execute_env(void)
 {
@@ -123,10 +62,8 @@ int execute_env(void)
 }
 
 /**
- * execute_command - Execute a command
- *
+ * execute_command - Execute a command with arguments
  * @args: Array of strings containing command and arguments
- *
  * Return: Status code of the command execution
  */
 int execute_command(char **args)

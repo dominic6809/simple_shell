@@ -2,10 +2,10 @@
 
 /**
  * execute - executes commands
- * @command: pointer tokienizer
+ * @command: pointer to tokienizer
  * @name: shell name
  * @env: pointsto enviroment variables
- * @round: executed cicles
+ * @round: executed cycles
  * Return: 0 when successful
  */
 void execute(char **command, char *name, char **env, int round)
@@ -94,9 +94,9 @@ char **get_PATH(char **env)
 /**
  * msgerror - prints message not found
  * @name: shell name
- * @round1: cicles number
+ * @round1: cycles number
  * @command: points tokenizer command
- * Return: 0
+ * Return: 0 on success and -1 error
  */
 
 void msgerror(char *name, int round1, char **command)

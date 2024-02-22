@@ -5,6 +5,7 @@
  * command_parser - Parses a string into tokens using delimiter.
  * @line: The string to parse.
  * @delimiter: The delimiter used to tokenize the string.
+ *
  * Return: A double pointer to an array of tokens on success,
  *         NULL on failure or if @line or @delimiter is NULL.
  */
