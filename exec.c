@@ -13,6 +13,7 @@ int execute_command(char **args);
 int main(int argc, char **argv)
 {
     char *program_name;
+
     program_name = strdup(argv[0]);
     char input[MAX_ARGS][MAX_ARG_LENGTH];
     char *args[MAX_ARGS];
