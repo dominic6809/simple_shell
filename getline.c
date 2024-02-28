@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * custom_getline - Reads a line from a stream.
+ * custom_getline - Reads a line from a stream
  * @lineptrr: Pointer to a buffer that will hold the read line.
  * @n: Pointer to the size of the buffer.
  * @stream: The input stream to read from.
