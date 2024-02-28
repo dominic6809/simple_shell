@@ -39,7 +39,7 @@ unsigned int _strlen(char *s);
 char *_strcpy(char *dest, char *src);
 int _atoi(char *s);
 char *_strcat(char *dest, char *src);
-char *custom_strok(char *str, const char *delim);
+char *custom_strtok(char *str, const char *delim);
 char **command_parser(char *line, const char *delimiter);
 int builtin_env(void);
 

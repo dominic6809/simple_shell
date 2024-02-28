@@ -2,9 +2,8 @@
 
 /**
  * print_prompt - Prints a prompt to the stdout stream
- * Return: (void) - return type
+ * Return: void
  */
-
 void print_prompt(void)
 {
 	char *prompt = "$Shell ";
