@@ -44,16 +44,10 @@ char *custom_strtok(char *str, const char *delim)
 	}
 	else
 	{
-	/* If no more delimiters, return remainder of string as
-	 * last token
-	 *
-	 */
+	/* If no more delimiters, return remainder of strings */
 	ret = src;
 	src = NULL;
 	}
-
-	/* Trim trailing delimiters */
-	ret += strspn(ret, delim);
 
 	return (ret);
 }
