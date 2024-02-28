@@ -17,7 +17,7 @@ int execute(char **args)
 	}
 	else if (_strcmp(args[0], "env") == 0)
 	{
-		return (execute_env());
+		return (execute());
 	}
 	else
 	{
@@ -54,8 +54,8 @@ int execute_env(void)
 
 	while (*env != NULL)
 	{
-		_fputs(*env, stdout);
-		_fputc('\n', stdout);
+		fputs(*env, stdout);
+		fputc('\n', stdout);
 		env++;
 	}
 	return (1);
@@ -100,11 +100,11 @@ int execute_command(char **args)
 	}
 	else
 	{
-		_fputs(program_name, stdout);
-		_fputs(": 1: ", stdout);
-		_fputs(args[0], stdout);
-		_fputs(": not found", stdout);
-		_fputc('\n', stdout);
+		fputs(program_name, stdout);
+		fputs(": 1: ", stdout);
+		fputs(args[0], stdout);
+		fputs(": not found", stdout);
+		fputc('\n', stdout);
 	}
 
 	return (0);

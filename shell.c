@@ -21,7 +21,7 @@ int main(int ac, char **av, char **env)
 		why++;
 		prompt();
 		signal(SIGINT, handle);
-		chars_read = getLine(&buffer, &buf_size, stdin);
+		chars_read = getline(&buffer, &buf_size, stdin);
 		if (chars_read == EOF)
 			_EOF(buffer);
 		else if (*buffer == '\n')
@@ -82,8 +82,6 @@ void _EOF(char *buffer)
 	free(buffer);
 	exit(EXIT_SUCCESS);
 }
-
-
 /**
  * shell_exit - exits the shelli
  * @command: points tokenizer command

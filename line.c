@@ -36,7 +36,7 @@ char **split_line(char *line)
 			free(args);
 			return (NULL);
 		}
-		_strncpy(args[i], arg, MAX_ARG_LENGTH);
+		strncpy(args[i], arg, MAX_ARG_LENGTH);
 		args[i][MAX_ARG_LENGTH] = '\0';
 		i++;
 	}

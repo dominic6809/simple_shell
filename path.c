@@ -12,11 +12,11 @@ char *get_command_path(char *command)
 {
 	char *path, *dir, *full_path, *tokenize;
 
-	if (_strchr(command, '/') != NULL)
+	if (strchr(command, '/') != NULL)
 	{
-		return (_strdup(command)); }
+		return (strdup(command)); }
 
-	path = _getenv("PATH");
+	path = getenv("PATH");
 
 	if (path == NULL)
 	{
@@ -27,7 +27,7 @@ char *get_command_path(char *command)
 
 	while (tokenize != NULL)
 	{
-		dir = _strdup(tokenize);
+		dir = strdup(tokenize);
 		full_path = malloc(_strlen(dir) + _strlen(command) + 2);
 
 		if (full_path == NULL)
@@ -67,9 +67,9 @@ char *build_command_path(char *directory, char *command)
 		write(STDERR_FILENO, "Allocation error\n", 17);
 		exit(EXIT_FAILURE); }
 
-	_strncpy(path, directory, directory_length);
+	strncpy(path, directory, directory_length);
 	path[directory_length] = '/';
-	_strncpy(path + directory_length + 1, command, command_length);
+	strncpy(path + directory_length + 1, command, command_length);
 	path[path_length - 1] = '\0';
 
 	return (path);
