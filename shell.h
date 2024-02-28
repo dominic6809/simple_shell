@@ -13,7 +13,7 @@
 void handle_exit(char **tokens);
 void handle_cd(char **tokens);
 void print_prompt(void);
-ssize_t custom_getline(char **lineptrr, size_t *n, FILE *stream);
+ssize_t custom_getLine(char **lineptrr, size_t *n, FILE *stream);
 pid_t create_process(void);
 int execute_command(char *command, char **args, char *program_name);
 char *resolve_path(char *command);
@@ -39,7 +39,7 @@ unsigned int _strlen(char *s);
 char *_strcpy(char *dest, char *src);
 int _atoi(char *s);
 char *_strcat(char *dest, char *src);
-char *custom_strtok(char *str, const char *delim);
+char *custom_strok(char *str, const char *delim);
 char **command_parser(char *line, const char *delimiter);
 int builtin_env(void);
 
