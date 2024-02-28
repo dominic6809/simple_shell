@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 
 /**
  * builtin_exit - Exit the shell
@@ -12,8 +12,9 @@ int builtin_exit(void)
 /**
  * builtin_env - Print the environment variables
  * @env: Environment variables
- * Return: Always returns 1, on success
+ * Return: Always returns 1 when successful
  */
+
 int builtin_env(char **env)
 {
 	int i;

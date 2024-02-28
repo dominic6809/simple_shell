@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 
 #define MAX_ARGS 64
 #define MAX_ARG_LENGTH 16
@@ -36,7 +36,7 @@ char **split_line(char *line)
 			free(args);
 			return (NULL);
 		}
-		strncpy(args[i], arg, MAX_ARG_LENGTH);
+		_strncpy(args[i], arg, MAX_ARG_LENGTH);
 		args[i][MAX_ARG_LENGTH] = '\0';
 		i++;
 	}

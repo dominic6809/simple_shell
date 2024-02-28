@@ -1,9 +1,10 @@
-#include "shell.h"
+#include "main.h"
 
 /**
  * custom_hello - Entry point of the program
- * Return: Always 0 (Success)
+ * Return: 0 when successful
  */
+
 int custom_hello(void)
 {
 	const char message[] = "Hello, world!\n";

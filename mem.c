@@ -1,47 +1,49 @@
-#include "shell.h"
-
+#include "main.h"
 /**
- * free_dp - frees pointer, NULLs the address
- * command: address pointer free
- * Return - 0 success
+ * parse_command - parse the command string into tokens
+ * @command: command string to parse
+ * Return: array of pointers to the token
  */
-void free_dp(char **command)
+
+char **parse_command(char *command)
 {
-	size_t e = 0;
+	char **tokens = malloc(sizeof(char *) * MAX_TOKENS);
+	char *token;
+	int i = 0;
 
-	if (command == NULL)
-		return;
-
-	while (command[e])
+	if (!tokens)
 	{
-		free(command[e]);
-		e++;
+		perror("Failed to allocate memory");
+		return (NULL);
 	}
 
-	if (command[e] == NULL)
-		free(command[e]);
-	free(command);
+	token = strtok(command, DELIMITER);
+
+	while (token != NULL)
+	{
+		tokens[i] = token;
+		i++;
+		token = strtok(NULL, DELIMITER);
+	}
+
+	tokens[i] = NULL;
+	return (tokens);
 }
+
 /**
- * free_exit - frees  memory allocated and exit
- * @command: points allocated command memory
- * Return: 0 when successful.
+ * free_tokens - frees the memory allocated for the tokens array
+ * @tokens: array of pointers to the tokens
+ *
  */
-void free_exit(char **command)
+
+void free_tokens(char **tokens)
 {
-	size_t m = 0;
+	int i = 0;
 
-	if (command == NULL)
-		return;
-
-	while (command[m])
+	while (tokens[i] != NULL)
 	{
-		free(command[m]);
-		m++;
+		free(tokens[i]);
+		i++;
 	}
-
-	if (command[m] == NULL)
-		free(command[m]);
-	free(command);
-	exit(EXIT_FAILURE);
+	free(tokens[i]);
 }

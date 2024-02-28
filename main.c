@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 
 /**
  * main - Entry point of the program
@@ -7,6 +7,7 @@
  * @envp: Array of environment variables
  * Return: Always 0 successful
  */
+
 int main(int argc, char **argv, char **envp)
 {
 	char *line = NULL, **args;
